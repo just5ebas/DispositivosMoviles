@@ -13,4 +13,5 @@
     <color name="azul_oscuro">#0C0A45</color>
     <color name="naranja">#FF9800</color>
     <color name="search_bg">#3ED1D1D5</color>
+    <color name="title_binding">#FF9800</color>
 </resources>

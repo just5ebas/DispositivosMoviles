@@ -35,4 +35,8 @@
         <item name="android:backgroundTint">@color/rojo_pasion</item>
     </style>
 
+    <style name="Binding_Title">
+        <item name="android:textColor">@color/title_binding</item>
+    </style>
+
 </resources>
