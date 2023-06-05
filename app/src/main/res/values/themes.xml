@@ -7,9 +7,17 @@
 
     <style name="Theme.DispositivosMoviles" parent="Base.Theme.DispositivosMoviles">
         <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:backgroundTint">@color/azul_oscuro</item>
         <item name="android:textColor">@color/rojo_pasion</item>
         <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="ejPractico">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="ejPractico_titulo">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="textTitle">
