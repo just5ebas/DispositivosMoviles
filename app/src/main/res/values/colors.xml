@@ -14,4 +14,11 @@
     <color name="naranja">#FF9800</color>
     <color name="search_bg">#3ED1D1D5</color>
     <color name="title_binding">#FF9800</color>
+    <color name="fragment1">#8C1C13</color>
+    <color name="fragment2">#BF4342</color>
+    <color name="fragment3">#E7D7C1</color>
+    <color name="naranja1">#FFC15E</color>
+    <color name="naranja2">#F7B05B</color>
+    <color name="naranja3">#F7934C</color>
+    <color name="naranja4">#CC5803</color>
 </resources>

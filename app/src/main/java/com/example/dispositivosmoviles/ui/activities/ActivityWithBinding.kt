@@ -9,6 +9,7 @@ import android.util.Log
 import com.example.dispositivosmoviles.R
 
 import com.example.dispositivosmoviles.databinding.ActivityWithBindingBinding
+import com.example.dispositivosmoviles.ui.fragments.FirstFragment
 import com.google.android.material.snackbar.Snackbar
 
 class ActivityWithBinding : AppCompatActivity() {
@@ -99,14 +100,18 @@ class ActivityWithBinding : AppCompatActivity() {
                     true
                 }
                 R.id.chat_gpt -> {
-                    var suma:Int = 0
-                    for(i in 1..10){
-                        suma += i
-                    }
-                    Snackbar.make(binding.textView,
-                        "La suma es $suma",
-                        Snackbar.LENGTH_LONG
-                    ).setBackgroundTint(Color.rgb(24, 119, 242)).show()
+                    val frag = FirstFragment()
+                    val transaction = supportFragmentManager.beginTransaction()
+                    // Reemplaza el contenido
+                    transaction.replace(binding.frmContainer.id, frag)
+
+                    // Muestra el fragmento encima del contenido
+                    //transaction.add(binding.frmContainer.id, frag)
+
+                    // Para que al presionar el boton hacia atras desaparezca el contenido
+                    transaction.addToBackStack(null)
+
+                    transaction.commit()
 
                     true
                 }

@@ -6,4 +6,6 @@
     <string name="pedidosOnline">Pedidos Online</string>
     <string name="mensaje_ejPractico">¡Hola! Es bueno verte nuevamente</string>
     <string name="correoEjemplo">example@email.com</string>
+    <string name="txt_fragment">Primer Fragmento</string>
+
 </resources>
