@@ -10,6 +10,8 @@ import com.example.dispositivosmoviles.R
 
 import com.example.dispositivosmoviles.databinding.ActivityWithBindingBinding
 import com.example.dispositivosmoviles.ui.fragments.FirstFragment
+import com.example.dispositivosmoviles.ui.fragments.SecondFragment
+import com.example.dispositivosmoviles.ui.fragments.ThirdFragment
 import com.google.android.material.snackbar.Snackbar
 
 class ActivityWithBinding : AppCompatActivity() {
@@ -76,30 +78,6 @@ class ActivityWithBinding : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.home -> {
-                    var suma:Int = 0
-                    for(i in 1..10){
-                        suma += i
-                    }
-                    Snackbar.make(binding.textView,
-                        "La suma es $suma",
-                        Snackbar.LENGTH_LONG
-                    ).setBackgroundTint(Color.rgb(232, 87, 87)).show()
-
-                    true
-                }
-                R.id.fav -> {
-                    var prod:Int = 1
-                    for(i in 1..10){
-                        prod *= i
-                    }
-                    Snackbar.make(binding.textView,
-                        "El producto es $prod",
-                        Snackbar.LENGTH_LONG
-                    ).setBackgroundTint(Color.rgb(29, 167, 242)).show()
-
-                    true
-                }
-                R.id.chat_gpt -> {
                     val frag = FirstFragment()
                     val transaction = supportFragmentManager.beginTransaction()
                     // Reemplaza el contenido
@@ -111,6 +89,26 @@ class ActivityWithBinding : AppCompatActivity() {
                     // Para que al presionar el boton hacia atras desaparezca el contenido
                     transaction.addToBackStack(null)
 
+                    transaction.commit()
+
+                    true
+                }
+                R.id.fav -> {
+                    val frag = SecondFragment()
+                    val transaction = supportFragmentManager.beginTransaction()
+
+                    transaction.replace(binding.frmContainer.id, frag)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+
+                    true
+                }
+                R.id.chat_gpt -> {
+                    val frag = ThirdFragment()
+                    val transaction = supportFragmentManager.beginTransaction()
+
+                    transaction.replace(binding.frmContainer.id, frag)
+                    transaction.addToBackStack(null)
                     transaction.commit()
 
                     true

@@ -7,5 +7,6 @@
     <string name="mensaje_ejPractico">¡Hola! Es bueno verte nuevamente</string>
     <string name="correoEjemplo">example@email.com</string>
     <string name="txt_fragment">Primer Fragmento</string>
-
+    <string name="txt_fragment2">Segundo Fragmento</string>
+    <string name="txt_fragment3">Tercer Fragmento</string>
 </resources>
