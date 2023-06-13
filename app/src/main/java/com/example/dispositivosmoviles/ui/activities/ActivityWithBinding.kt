@@ -12,6 +12,7 @@ import com.example.dispositivosmoviles.databinding.ActivityWithBindingBinding
 import com.example.dispositivosmoviles.ui.fragments.FirstFragment
 import com.example.dispositivosmoviles.ui.fragments.SecondFragment
 import com.example.dispositivosmoviles.ui.fragments.ThirdFragment
+import com.example.dispositivosmoviles.ui.utilities.FragmentsManager
 import com.google.android.material.snackbar.Snackbar
 
 class ActivityWithBinding : AppCompatActivity() {
@@ -51,9 +52,12 @@ class ActivityWithBinding : AppCompatActivity() {
 
         Log.d("UCE", "Entrando a Start")
         super.onStart()
+        FragmentsManager().replaceFragment(
+            supportFragmentManager,
+            binding.frmContainer.id,
+            FirstFragment()
+        )
         initClass()
-
-
     }
 
     override fun onDestroy() {
@@ -75,10 +79,10 @@ class ActivityWithBinding : AppCompatActivity() {
 
         }
 
-        binding.bottomNavigation.setOnItemSelectedListener {
+        binding.bottomNavigation.setOnItemSelectedListener {it->
             when(it.itemId) {
                 R.id.home -> {
-                    val frag = FirstFragment()
+                    /*val frag = FirstFragment()
                     val transaction = supportFragmentManager.beginTransaction()
                     // Reemplaza el contenido
                     transaction.replace(binding.frmContainer.id, frag)
@@ -89,34 +93,39 @@ class ActivityWithBinding : AppCompatActivity() {
                     // Para que al presionar el boton hacia atras desaparezca el contenido
                     transaction.addToBackStack(null)
 
-                    transaction.commit()
-
+                    transaction.commit()*/
+                    FragmentsManager().replaceFragment(
+                        supportFragmentManager,
+                        binding.frmContainer.id,
+                        FirstFragment()
+                    )
                     true
                 }
                 R.id.fav -> {
-                    val frag = SecondFragment()
-                    val transaction = supportFragmentManager.beginTransaction()
-
-                    transaction.replace(binding.frmContainer.id, frag)
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-
+                    FragmentsManager().replaceFragment(
+                        supportFragmentManager,
+                        binding.frmContainer.id,
+                        SecondFragment()
+                    )
                     true
                 }
                 R.id.chat_gpt -> {
-                    val frag = ThirdFragment()
-                    val transaction = supportFragmentManager.beginTransaction()
-
-                    transaction.replace(binding.frmContainer.id, frag)
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-
+                    FragmentsManager().replaceFragment(
+                        supportFragmentManager,
+                        binding.frmContainer.id,
+                        ThirdFragment()
+                    )
                     true
                 }
 
                 else -> {false}
             }
         }
+    }
+
+    // Cuando se presione el boton hacia atras
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 
 }

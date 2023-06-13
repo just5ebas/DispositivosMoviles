@@ -47,4 +47,8 @@
         <item name="android:textColor">@color/title_binding</item>
     </style>
 
+    <style name="Active_Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/title_binding</item>
+    </style>
+
 </resources>
