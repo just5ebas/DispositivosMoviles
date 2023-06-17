@@ -8,8 +8,12 @@ import android.view.ViewGroup
 import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.SimpleAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.dispositivosmoviles.R
 import com.example.dispositivosmoviles.databinding.FragmentFirstBinding
+import com.example.dispositivosmoviles.logic.list.ListItems
+import com.example.dispositivosmoviles.ui.adapters.MarvelAdapter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,8 +57,16 @@ class FirstFragment : Fragment() {
             names
         )
 
-        binding.spinner.adapter = adapter
-        binding.listView.adapter = adapter
-    }
+        val rvAdapter = MarvelAdapter(ListItems().returnMarvelList())
 
+        val rvMarvel = binding.rvMarvelChars
+        rvMarvel.adapter = rvAdapter
+        // LinearLayoutManager
+        rvMarvel.layoutManager = LinearLayoutManager(
+            requireActivity(),
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+
+    }
 }
