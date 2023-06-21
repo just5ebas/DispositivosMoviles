@@ -7,7 +7,6 @@
 
     <style name="Theme.DispositivosMoviles" parent="Base.Theme.DispositivosMoviles">
         <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:textColor">@color/rojo_pasion</item>
         <item name="android:textSize">17sp</item>
     </style>
 

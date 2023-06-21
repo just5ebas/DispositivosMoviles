@@ -1,5 +1,6 @@
 package com.example.dispositivosmoviles.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,8 +12,12 @@ import android.widget.SimpleAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.dispositivosmoviles.R
+import com.example.dispositivosmoviles.databinding.ActivityEjercicioPracticoBinding
 import com.example.dispositivosmoviles.databinding.FragmentFirstBinding
 import com.example.dispositivosmoviles.logic.list.ListItems
+import com.example.dispositivosmoviles.logic.list.MarvelChars
+import com.example.dispositivosmoviles.ui.activities.DetailsMarvelItem
+import com.example.dispositivosmoviles.ui.activities.EjercicioPracticoActivity
 import com.example.dispositivosmoviles.ui.adapters.MarvelAdapter
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +32,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class FirstFragment : Fragment() {
 
-    private lateinit var binding : FragmentFirstBinding
+    private lateinit var binding: FragmentFirstBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,16 +62,44 @@ class FirstFragment : Fragment() {
             names
         )
 
-        val rvAdapter = MarvelAdapter(ListItems().returnMarvelList())
+        chargeDataRv()
+
+        binding.rvSwipe.setOnRefreshListener {
+            chargeDataRv()
+            binding.rvSwipe.isRefreshing = false
+        }
+
+    }
+
+    fun sendMarvelItem(item: MarvelChars) { //: Unit {
+        //Los intents solo se encuentran en los fragments y en las Activities
+        val i = Intent(requireActivity(), DetailsMarvelItem::class.java)
+        // Esta forma de enviar informacion es ineficiente cuando se tienen mas atributos
+        i.putExtra("name", item)
+        //i.putExtra("comic", item.comic)
+        //i.putExtra("imagen", item.imagen)
+        startActivity(i)
+    }
+
+    // Serializacion: proceso de pasar de un objeto a un string para poder enviarlo por medio de la web
+    // Parceables: Mucho mas eficiente que la serializacion, pues ejecutan de mejor manera el mismo proceso
+    // Serializacion -> Utiliza objetos JSON
+    // Parcelables   -> Son mas rapidos pero su implementacion es compleja, afortunadamente existen plugins que nos ayudan
+
+    fun chargeDataRv(){
+        val rvAdapter = MarvelAdapter(
+            ListItems().returnMarvelList()
+            //, { sendMarvelItem(it) }
+        ) { sendMarvelItem(it) }
 
         val rvMarvel = binding.rvMarvelChars
-        rvMarvel.adapter = rvAdapter
-        // LinearLayoutManager
-        rvMarvel.layoutManager = LinearLayoutManager(
-            requireActivity(),
-            LinearLayoutManager.VERTICAL,
-            false
-        )
-
+        with(rvMarvel) {
+            this.adapter = rvAdapter
+            this.layoutManager = LinearLayoutManager(
+                requireActivity(),
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+        }
     }
 }

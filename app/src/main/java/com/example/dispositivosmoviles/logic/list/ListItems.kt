@@ -1,8 +1,11 @@
 package com.example.dispositivosmoviles.logic.list
 
+import android.os.Parcelable
 import com.example.dispositivosmoviles.R
+import kotlinx.parcelize.Parcelize
 
-data class MarvelChars(var id: Int, var nombre: String, var comic: String, var imagen: String) {
+@Parcelize // Con esta anotacion, el IDE genera los metodos necesarios
+data class MarvelChars(var id: Int, var nombre: String, var comic: String, var imagen: String): Parcelable {
     override fun toString(): String {
         return "$nombre aparece en el comic $comic"
     }
