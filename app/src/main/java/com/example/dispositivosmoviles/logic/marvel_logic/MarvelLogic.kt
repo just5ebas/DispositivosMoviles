@@ -3,7 +3,7 @@ package com.example.dispositivosmoviles.logic.marvel_logic
 import android.util.Log
 import com.example.dispositivosmoviles.data.connections.ApiConnection
 import com.example.dispositivosmoviles.data.endpoints.MarvelEndpoint
-import com.example.dispositivosmoviles.data.marvel.MarvelChars
+import com.example.dispositivosmoviles.logic.data.MarvelChars
 
 class MarvelLogic {
 

@@ -2,7 +2,6 @@ package com.example.dispositivosmoviles.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dispositivosmoviles.R
-import com.example.dispositivosmoviles.data.marvel.MarvelChars
+import com.example.dispositivosmoviles.logic.data.MarvelChars
 import com.example.dispositivosmoviles.databinding.FragmentFirstBinding
-import com.example.dispositivosmoviles.logic.jikan_logic.JikanAnimeLogic
 import com.example.dispositivosmoviles.logic.marvel_logic.MarvelLogic
 import com.example.dispositivosmoviles.ui.activities.DetailsMarvelItem
 import com.example.dispositivosmoviles.ui.adapters.MarvelAdapter
@@ -40,7 +38,7 @@ class FirstFragment : Fragment() {
 
     private lateinit var rvAdapter: MarvelAdapter
 
-    private lateinit var marvelCharItems: MutableList<MarvelChars>
+    private var marvelCharItems: MutableList<MarvelChars> = mutableListOf<MarvelChars>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,7 +98,7 @@ class FirstFragment : Fragment() {
                                 //val newItems = JikanAnimeLogic().getAllAnimes()
                                 val newItems = MarvelLogic().getMarvelChars(
                                     name = "sta",
-                                    limit = 7
+                                    limit = 20
                                 )
 
                                 withContext(Dispatchers.Main) {
@@ -115,7 +113,7 @@ class FirstFragment : Fragment() {
 
         binding.txtFilter.addTextChangedListener { filteredText ->
             val newItems = marvelCharItems.filter { items ->
-                items.nombre.contains(filteredText.toString())
+                items.nombre.lowercase().contains(filteredText.toString().lowercase())
             }
             rvAdapter.replaceListAdapter(newItems)
         }
@@ -154,22 +152,27 @@ class FirstFragment : Fragment() {
 
     fun chargeDataRv(search: String) {
 
-        lifecycleScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.Main) {
 
-            marvelCharItems = MarvelLogic().getMarvelChars(search, 20)
+            // lo que se ejecuta en ese contexto regresa al contexto Main
+            marvelCharItems = withContext(Dispatchers.IO) {
+                // se usa dispatcher io porque se maneja entrada y salida (consumo de api)
+                return@withContext MarvelLogic().getMarvelChars(
+                    search,
+                    20
+                )
+            }
 
             rvAdapter = MarvelAdapter(
-                //JikanAnimeLogic().getAllAnimes()
                 marvelCharItems
             ) { sendMarvelItem(it) }
 
-            withContext(Dispatchers.Main) {
-                with(binding.rvMarvelChars) {
-                    this.adapter = rvAdapter
-                    this.layoutManager = lmanager
-                }
+            // por medio del apply le decimos que debe hacer el codigo
+            // funciona similar que el with
+            binding.rvMarvelChars.apply {
+                this.adapter = rvAdapter
+                this.layoutManager = lmanager
             }
-
 
         }
 

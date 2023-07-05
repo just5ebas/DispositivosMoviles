@@ -44,10 +44,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="345dp"
+        android:layout_height="385dp"
         android:layout_margin="15dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView">
@@ -56,23 +55,23 @@
             android:id="@+id/txtFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="14sp"
+            android:imeOptions="actionDone"
             android:maxLines="1"
             android:singleLine="true"
-            android:imeOptions="actionDone"/>
-
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/rvSwipe"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="300dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvMarvelChars"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
+
                 tools:layout_conversion_absoluteHeight="350dp"
                 tools:layout_conversion_absoluteWidth="382dp"
                 tools:layout_editor_absoluteX="15dp"

@@ -1,4 +1,4 @@
-package com.example.dispositivosmoviles.data.marvel.characters
+package com.example.dispositivosmoviles.data.entities.marvel.characters
 
 data class Stories(
     val available: Int,

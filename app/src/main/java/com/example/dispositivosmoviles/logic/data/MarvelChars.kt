@@ -1,4 +1,4 @@
-package com.example.dispositivosmoviles.data.marvel
+package com.example.dispositivosmoviles.logic.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
