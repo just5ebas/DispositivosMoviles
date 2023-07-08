@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id("kotlin-parcelize")
-    id("kotlin-kapt")
+//    id("kotlin-kapt")
 }
 
 android {
@@ -36,8 +36,9 @@ android {
     buildFeatures{
         viewBinding = true
     }
-    dataBinding {
-        enabled = true
+
+    kotlin{
+        jvmToolchain(8)
     }
 
 }
@@ -63,11 +64,11 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
 
-    // Room
-    implementation("androidx.room:room-runtime:2.5.0")
-    annotationProcessor("androidx.room:room-compiler:2.5.0")
-
-    // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:2.5.0")
+//    // Room
+//    implementation("androidx.room:room-runtime:2.5.0")
+//    annotationProcessor("androidx.room:room-compiler:2.5.0")
+//
+//    // To use Kotlin annotation processing tool (kapt)
+//    kapt("androidx.room:room-compiler:2.5.0")
 
 }

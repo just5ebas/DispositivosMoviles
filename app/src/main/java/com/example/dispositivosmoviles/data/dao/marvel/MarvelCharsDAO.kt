@@ -15,7 +15,7 @@ interface MarvelCharsDAO {
 
     // con los : podemos acceder a los parametros del metodo en el query
     @Query("select * from MarvelCharsDB where id=:pk")
-    fun getOneCharacter(pk: Int): MarvelCharsDB+
+    fun getOneCharacter(pk: Int): MarvelCharsDB
 
     @Insert
     fun insertMarvelChar(ch: MarvelCharsDB)

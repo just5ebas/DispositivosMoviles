@@ -96,8 +96,8 @@ class FirstFragment : Fragment() {
                         if ((v + p) >= t) {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 //val newItems = JikanAnimeLogic().getAllAnimes()
-                                val newItems = MarvelLogic().getMarvelChars(
-                                    name = "sta",
+                                val newItems = MarvelLogic().getAllMarvelChars(
+                                    offset = 0,
                                     limit = 20
                                 )
 
