@@ -21,7 +21,7 @@ class MarvelLogic {
             if (response.isSuccessful) {
                 response.body()!!.data.results.forEach() {
                     var comic: String = "No available"
-                    if (it.comics.items.size > 0) {
+                    if (it.comics.items.isNotEmpty()) {
                         comic = it.comics.items[0].name
                     }
                     val m = MarvelChars(

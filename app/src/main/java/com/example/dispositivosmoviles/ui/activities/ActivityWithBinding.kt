@@ -46,7 +46,6 @@ class ActivityWithBinding : AppCompatActivity() {
         intent.extras!!.let {
             // it? significa que este item/objeto puede ser nulo
             var name = it?.getString("var1")
-
         }
          */
 

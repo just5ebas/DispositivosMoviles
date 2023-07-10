@@ -1,19 +1,23 @@
 package com.example.dispositivosmoviles.ui.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dispositivosmoviles.R
-import com.example.dispositivosmoviles.logic.data.MarvelChars
 import com.example.dispositivosmoviles.databinding.FragmentFirstBinding
+import com.example.dispositivosmoviles.logic.data.MarvelChars
 import com.example.dispositivosmoviles.logic.marvel_logic.MarvelLogic
 import com.example.dispositivosmoviles.ui.activities.DetailsMarvelItem
 import com.example.dispositivosmoviles.ui.adapters.MarvelAdapter
@@ -73,13 +77,15 @@ class FirstFragment : Fragment() {
             names
         )
 
-        chargeDataRv("cap")
+        //chargeDataRv("cap")
 
         binding.rvSwipe.setOnRefreshListener {
-            chargeDataRv("cap")
+            //chargeDataRv("cap")
+            chargeDataRv(binding.txtFilter.text.toString())
             binding.rvSwipe.isRefreshing = false
         }
 
+/*
         binding.rvMarvelChars.addOnScrollListener(
             object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -116,6 +122,18 @@ class FirstFragment : Fragment() {
                 items.nombre.lowercase().contains(filteredText.toString().lowercase())
             }
             rvAdapter.replaceListAdapter(newItems)
+        }
+*/
+
+        binding.txtFilter.setOnEditorActionListener { textView, actionId, keyEvent ->
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(binding.txtFilter.windowToken, 0)
+
+                chargeDataRv(textView.text.toString())
+                return@setOnEditorActionListener true
+            }
+            false
         }
 
     }
