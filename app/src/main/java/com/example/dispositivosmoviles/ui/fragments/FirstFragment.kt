@@ -3,6 +3,7 @@ package com.example.dispositivosmoviles.ui.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -130,7 +131,17 @@ class FirstFragment : Fragment() {
                 val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(binding.txtFilter.windowToken, 0)
 
-                chargeDataRv(textView.text.toString())
+                //chargeDataRv(textView.text.toString())
+
+                val fragment = SecondFragment()
+                val args = Bundle().apply { putString("busqueda", textView.text.toString()) }
+                fragment.arguments = args
+
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.frm_container, fragment)
+                    .addToBackStack(null)
+                    .commit()
+
                 return@setOnEditorActionListener true
             }
             false
@@ -193,7 +204,6 @@ class FirstFragment : Fragment() {
             }
 
         }
-
 
     }
 }
