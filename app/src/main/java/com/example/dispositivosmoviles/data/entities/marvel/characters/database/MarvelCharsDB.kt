@@ -3,6 +3,7 @@ package com.example.dispositivosmoviles.data.entities.marvel.characters.database
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.dispositivosmoviles.logic.data.MarvelChars
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -13,4 +14,15 @@ data class MarvelCharsDB (
     var nombre: String,
     var comic: String,
     var imagen: String,
-) : Parcelable
+) : Parcelable {
+
+    fun getMarvelChars() : MarvelChars {
+        return MarvelChars(
+            this.id,
+            this.nombre,
+            this.comic,
+            this.imagen
+        )
+    }
+
+}

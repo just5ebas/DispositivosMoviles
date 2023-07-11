@@ -3,8 +3,10 @@ package com.example.dispositivosmoviles.logic.marvel_logic
 import android.util.Log
 import com.example.dispositivosmoviles.data.connections.ApiConnection
 import com.example.dispositivosmoviles.data.endpoints.MarvelEndpoint
+import com.example.dispositivosmoviles.data.entities.marvel.characters.database.MarvelCharsDB
 import com.example.dispositivosmoviles.data.entities.marvel.characters.getMarvelChars
 import com.example.dispositivosmoviles.logic.data.MarvelChars
+import com.example.dispositivosmoviles.ui.utilities.DispositivosMoviles
 
 class MarvelLogic {
 
@@ -55,6 +57,33 @@ class MarvelLogic {
 
         return itemList
 
+    }
+
+    suspend fun getAllMarvelCharDB():MutableList<MarvelChars> {
+
+        val items : ArrayList<MarvelChars> = arrayListOf()
+
+        DispositivosMoviles.getDbInstance().marvelDao().getAllCharacters().forEach {
+            items.add(
+                MarvelChars(
+                    it.id,
+                    it.nombre,
+                    it.comic,
+                    it.imagen
+                )
+            )
+        }
+
+        return items
+
+    }
+
+    suspend fun insertMarvelCharsToDB(items: List<MarvelChars>){
+        var itemsDB = arrayListOf<MarvelCharsDB>()
+        items.forEach {
+            itemsDB.add(it.getMarvelCharsDB())
+        }
+        DispositivosMoviles.getDbInstance().marvelDao().insertMarvelChars(itemsDB)
     }
 
 }

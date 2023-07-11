@@ -6,6 +6,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.dispositivosmoviles.databinding.ActivityMainBinding
+import com.example.dispositivosmoviles.ui.utilities.DispositivosMoviles
 import com.example.dispositivosmoviles.ui.validator.LoginValidator
 import com.google.android.material.snackbar.Snackbar
 
@@ -72,13 +73,18 @@ class MainActivity : AppCompatActivity() {
     // Se ejecuta inmediatamente despues del onCreate
     override fun onStart() {
         super.onStart()
-        initClass()
+
+        val db = DispositivosMoviles.getDbInstance()
+        //db.marvelDao().
+
+        //initClass()
     }
 
     override fun onDestroy() {
         super.onDestroy()
     }
 
+    /*
     // Podemos crear nuestras funcionalidades en una funcion apartada e invocarla en el onCreate
     fun initClass() {
         binding.btnLogin.setOnClickListener {
@@ -134,4 +140,6 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+    */
+
 }
