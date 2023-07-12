@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val db = DispositivosMoviles.getDbInstance()
+//        val db = DispositivosMoviles.getDbInstance()
         //db.marvelDao().
 
         //initClass()

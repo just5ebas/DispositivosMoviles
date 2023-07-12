@@ -6,7 +6,10 @@ import com.example.dispositivosmoviles.data.endpoints.MarvelEndpoint
 import com.example.dispositivosmoviles.data.entities.marvel.characters.database.MarvelCharsDB
 import com.example.dispositivosmoviles.data.entities.marvel.characters.getMarvelChars
 import com.example.dispositivosmoviles.logic.data.MarvelChars
+import com.example.dispositivosmoviles.logic.data.getMarvelCharsDB
 import com.example.dispositivosmoviles.ui.utilities.DispositivosMoviles
+import java.lang.Exception
+import java.lang.RuntimeException
 
 class MarvelLogic {
 
@@ -59,9 +62,9 @@ class MarvelLogic {
 
     }
 
-    suspend fun getAllMarvelCharDB():MutableList<MarvelChars> {
+    suspend fun getAllMarvelCharDB(): MutableList<MarvelChars> {
 
-        val items : ArrayList<MarvelChars> = arrayListOf()
+        val items: ArrayList<MarvelChars> = arrayListOf()
 
         DispositivosMoviles.getDbInstance().marvelDao().getAllCharacters().forEach {
             items.add(
@@ -78,12 +81,34 @@ class MarvelLogic {
 
     }
 
-    suspend fun insertMarvelCharsToDB(items: List<MarvelChars>){
+    suspend fun getInitChar(page: Int): MutableList<MarvelChars> {
+        var items = mutableListOf<MarvelChars>()
+        try {
+            items = MarvelLogic()
+                .getAllMarvelCharDB()
+                .toMutableList()
+
+            if (items.isEmpty()) {
+                items = (MarvelLogic().getAllMarvelChars(
+                    0,
+                    page * 3
+                ))
+                MarvelLogic().insertMarvelCharsToDB(items)
+            }
+        } catch (ex: Exception) {
+            throw RuntimeException(ex.message)
+        } finally {
+            return items
+        }
+    }
+
+    suspend fun insertMarvelCharsToDB(items: List<MarvelChars>) {
         var itemsDB = arrayListOf<MarvelCharsDB>()
         items.forEach {
             itemsDB.add(it.getMarvelCharsDB())
         }
         DispositivosMoviles.getDbInstance().marvelDao().insertMarvelChars(itemsDB)
     }
+
 
 }

@@ -3,6 +3,7 @@ package com.example.dispositivosmoviles.ui.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -81,10 +82,10 @@ class FirstFragment : Fragment() {
         */
 
 
-        chargeDataRvDB(5)
+        chargeDataRVDB(5)
 
         binding.rvSwipe.setOnRefreshListener {
-            chargeDataRvDB(5)
+            chargeDataRVDB(5)
             binding.rvSwipe.isRefreshing = false
         }
 
@@ -130,30 +131,30 @@ class FirstFragment : Fragment() {
         */
 
 
-/*
+        /*
 
-        binding.txtFilter.setOnEditorActionListener { textView, actionId, keyEvent ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                val inputMethodManager =
-                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(binding.txtFilter.windowToken, 0)
+                binding.txtFilter.setOnEditorActionListener { textView, actionId, keyEvent ->
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        val inputMethodManager =
+                            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        inputMethodManager.hideSoftInputFromWindow(binding.txtFilter.windowToken, 0)
 
-                chargeDataRvAPI(textView.text.toString())
+                        chargeDataRvAPI(textView.text.toString())
 
-//                val fragment = SecondFragment()
-//                val args = Bundle().apply { putString("busqueda", textView.text.toString()) }
-//                fragment.arguments = args
-//
-//                requireActivity().supportFragmentManager.beginTransaction()
-//                    .replace(R.id.frm_container, fragment)
-//                    .addToBackStack(null)
-//                    .commit()
+        //                val fragment = SecondFragment()
+        //                val args = Bundle().apply { putString("busqueda", textView.text.toString()) }
+        //                fragment.arguments = args
+        //
+        //                requireActivity().supportFragmentManager.beginTransaction()
+        //                    .replace(R.id.frm_container, fragment)
+        //                    .addToBackStack(null)
+        //                    .commit()
 
-                return@setOnEditorActionListener true
-            }
-            false
-        }
-*/
+                        return@setOnEditorActionListener true
+                    }
+                    false
+                }
+        */
     }
 
 
@@ -216,47 +217,33 @@ class FirstFragment : Fragment() {
 
     }
 
-    fun chargeDataRvDB(pos: Int) {
+    fun chargeDataRVDB(pos: Int) {
 
         lifecycleScope.launch(Dispatchers.Main) {
 
             // lo que se ejecuta en ese contexto regresa al contexto Main
             marvelCharItems = withContext(Dispatchers.IO) {
-                // se usa dispatcher io porque se maneja entrada y salida (consumo de api)
-                return@withContext MarvelLogic().getAllMarvelCharDB().toMutableList()
-            }
+                var marvelCharItems = MarvelLogic().getAllMarvelCharDB().toMutableList()
 
-            if(marvelCharItems.isEmpty()) {
-                marvelCharItems = withContext(Dispatchers.IO) {
-                    // se usa dispatcher io porque se maneja entrada y salida (consumo de api)
-                    return@withContext MarvelLogic().getAllMarvelChars(
-                        0,
-                        20
-                    )
+                if (marvelCharItems.isEmpty()) {
+                    marvelCharItems = (MarvelLogic().getAllMarvelChars(0, 50))
+                    MarvelLogic().insertMarvelCharsToDB(marvelCharItems)
                 }
+
+                return@withContext marvelCharItems
             }
 
-            withContext(Dispatchers.IO) {
-                MarvelLogic().insertMarvelCharsToDB(marvelCharItems)
-            }
-
-            rvAdapter.items = marvelCharItems
-
-//            rvAdapter = MarvelAdapter(
-//                marvelCharItems
-//            ) { sendMarvelItem(it) }
+            rvAdapter = MarvelAdapter(
+                marvelCharItems
+            ) { sendMarvelItem(it) }
 
             // por medio del apply le decimos que debe hacer el codigo
             // funciona similar que el with
             binding.rvMarvelChars.apply {
                 this.adapter = rvAdapter
                 this.layoutManager = lmanager
-                lmanager.scrollToPositionWithOffset(pos, 10)
             }
-
         }
-
-
     }
 
 }

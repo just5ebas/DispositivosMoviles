@@ -10,13 +10,14 @@ data class MarvelChars(
     var nombre: String,
     var comic: String,
     var imagen: String,
-) : Parcelable {
-    fun getMarvelCharsDB() : MarvelCharsDB {
-        return MarvelCharsDB(
-            this.id,
-            this.nombre,
-            this.comic,
-            this.imagen
-        )
-    }
+) : Parcelable
+
+fun MarvelChars.getMarvelCharsDB(): MarvelCharsDB {
+    return MarvelCharsDB(
+        id,
+        nombre,
+        comic,
+        imagen
+    )
 }
+

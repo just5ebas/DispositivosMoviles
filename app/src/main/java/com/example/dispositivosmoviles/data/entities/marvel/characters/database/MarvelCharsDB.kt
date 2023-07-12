@@ -8,21 +8,20 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity
-data class MarvelCharsDB (
+data class MarvelCharsDB(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     var nombre: String,
     var comic: String,
     var imagen: String,
-) : Parcelable {
+) : Parcelable
 
-    fun getMarvelChars() : MarvelChars {
-        return MarvelChars(
-            this.id,
-            this.nombre,
-            this.comic,
-            this.imagen
-        )
-    }
-
+fun MarvelCharsDB.getMarvelChars(): MarvelChars {
+    return MarvelChars(
+        id,
+        nombre,
+        comic,
+        imagen
+    )
 }
+
