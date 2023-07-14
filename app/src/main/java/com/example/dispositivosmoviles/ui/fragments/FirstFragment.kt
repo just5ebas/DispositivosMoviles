@@ -14,18 +14,23 @@ import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dispositivosmoviles.R
 import com.example.dispositivosmoviles.logic.data.MarvelChars
 import com.example.dispositivosmoviles.databinding.FragmentFirstBinding
+import com.example.dispositivosmoviles.logic.data.getMarvelCharsDB
 import com.example.dispositivosmoviles.logic.marvel_logic.MarvelLogic
 import com.example.dispositivosmoviles.ui.activities.DetailsMarvelItem
 import com.example.dispositivosmoviles.ui.adapters.MarvelAdapter
 import com.example.dispositivosmoviles.ui.utilities.DispositivosMoviles
+import com.example.dispositivosmoviles.ui.utilities.Metodos
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,21 +46,36 @@ class FirstFragment : Fragment() {
 
     private lateinit var binding: FragmentFirstBinding
     private lateinit var lmanager: LinearLayoutManager
+    private lateinit var gManager: GridLayoutManager
 
     private lateinit var rvAdapter: MarvelAdapter
 
     private var marvelCharItems: MutableList<MarvelChars> = mutableListOf<MarvelChars>()
 
+    private val limit = 5
+    private var offset = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFirstBinding.inflate(layoutInflater, container, false)
+        binding = FragmentFirstBinding.inflate(
+            layoutInflater,
+            container,
+            false
+        )
+
         lmanager = LinearLayoutManager(
             requireActivity(),
             LinearLayoutManager.VERTICAL,
             false
         )
+
+        gManager = GridLayoutManager(
+            requireActivity(),
+            2
+        )
+
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -81,11 +101,10 @@ class FirstFragment : Fragment() {
         )
         */
 
-
-        chargeDataRVDB(5)
+        chargeDataRVInit(offset, limit)
 
         binding.rvSwipe.setOnRefreshListener {
-            chargeDataRVDB(5)
+            chargeDataRv(offset, limit)
             binding.rvSwipe.isRefreshing = false
         }
 
@@ -107,29 +126,29 @@ class FirstFragment : Fragment() {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 //val newItems = JikanAnimeLogic().getAllAnimes()
                                 val newItems = MarvelLogic().getAllMarvelChars(
-                                    offset = 0,
-                                    limit = 20
+                                    offset,
+                                    limit
                                 )
 
                                 withContext(Dispatchers.Main) {
                                     rvAdapter.updateListItem(newItems)
+                                    //this@FirstFragment.offset = offset + limit
+
                                 }
                             }
+                            offset += limit
                         }
                     }
                 }
             }
         )
 
-        /*
         binding.txtFilter.addTextChangedListener { filteredText ->
             val newItems = marvelCharItems.filter { items ->
                 items.nombre.lowercase().contains(filteredText.toString().lowercase())
             }
             rvAdapter.replaceListAdapter(newItems)
         }
-        */
-
 
         /*
 
@@ -168,6 +187,21 @@ class FirstFragment : Fragment() {
         startActivity(i)
     }
 
+    fun saveMarveltem(item: MarvelChars): Boolean {
+        lifecycleScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
+                if (DispositivosMoviles.getDbInstance().marvelDao()
+                        .getOneCharacter(item.id) == null) {
+                    DispositivosMoviles
+                        .getDbInstance()
+                        .marvelDao()
+                        .insertMarvelChars(listOf(item.getMarvelCharsDB()))
+                }
+            }
+        }
+        return true
+    }
+
     // Serializacion: proceso de pasar de un objeto a un string para poder enviarlo por medio de la web
     // Parcelables:   Mucho mas eficiente que la serializacion, pues ejecutan de mejor manera el mismo proceso
     // Serializacion -> Utiliza objetos JSON
@@ -197,13 +231,15 @@ class FirstFragment : Fragment() {
                 // se usa dispatcher io porque se maneja entrada y salida (consumo de api)
                 return@withContext MarvelLogic().getMarvelChars(
                     search,
-                    20
+                    limit
                 )
             }
 
             rvAdapter = MarvelAdapter(
-                marvelCharItems
-            ) { sendMarvelItem(it) }
+                marvelCharItems,
+                { sendMarvelItem(it) },
+                { saveMarveltem(it) }
+            )
 
             // por medio del apply le decimos que debe hacer el codigo
             // funciona similar que el with
@@ -214,36 +250,64 @@ class FirstFragment : Fragment() {
 
         }
 
+        this.offset += this.limit
 
     }
 
-    fun chargeDataRVDB(pos: Int) {
-
+    fun chargeDataRv(offset: Int, limit: Int) {
+        //hilo principal
         lifecycleScope.launch(Dispatchers.Main) {
-
-            // lo que se ejecuta en ese contexto regresa al contexto Main
+            //relleno la lista en otro hilo y la retorna
             marvelCharItems = withContext(Dispatchers.IO) {
-                var marvelCharItems = MarvelLogic().getAllMarvelCharDB().toMutableList()
-
-                if (marvelCharItems.isEmpty()) {
-                    marvelCharItems = (MarvelLogic().getAllMarvelChars(0, 50))
-                    MarvelLogic().insertMarvelCharsToDB(marvelCharItems)
-                }
-
-                return@withContext marvelCharItems
+                return@withContext MarvelLogic().getAllMarvelChars(offset, limit)
             }
-
             rvAdapter = MarvelAdapter(
-                marvelCharItems
-            ) { sendMarvelItem(it) }
+                marvelCharItems,
+                { sendMarvelItem(it) },
+                { saveMarveltem(it) }
+            )
 
-            // por medio del apply le decimos que debe hacer el codigo
-            // funciona similar que el with
             binding.rvMarvelChars.apply {
                 this.adapter = rvAdapter
                 this.layoutManager = lmanager
+
+//                this.layoutManager = gManager
+//                gManager.scrollToPositionWithOffset(offset, limit)
             }
+            //this@FirstFragment.offset += limit
         }
+        this.offset += this.limit
     }
 
+    fun chargeDataRVInit(offset: Int, limit: Int) {
+        if (Metodos().isOnline(requireActivity())) {
+            lifecycleScope.launch(Dispatchers.Main) {
+                //relleno la listaa en otro hilo y retorno
+                marvelCharItems = withContext(Dispatchers.IO) {
+                    MarvelLogic().getInitChar(offset, limit)
+                    //Lo que estaba aqui se debe poner en el LOGIC, Saludos
+                }
+                rvAdapter = MarvelAdapter(
+                    marvelCharItems,
+                    { sendMarvelItem(it) },
+                    { saveMarveltem(it) }
+                )
+
+                //Si hay IO dentro de main no hace falta el with context
+                binding.rvMarvelChars.apply {
+                    this.adapter = rvAdapter
+                    this.layoutManager = lmanager
+
+//                    this.layoutManager = gManager
+//                    gManager.scrollToPositionWithOffset(offset, limit)
+                }
+                //this@FirstFragment.offset += limit
+                //false es el orden default true es inverso
+            }
+            this.offset += this.limit
+        } else {
+            Snackbar.make(binding.cardView, "No hay conexion", Snackbar.LENGTH_LONG).show()
+        }
+
+    }
 }

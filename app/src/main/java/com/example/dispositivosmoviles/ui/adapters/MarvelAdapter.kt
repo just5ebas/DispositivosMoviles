@@ -12,7 +12,8 @@ import com.squareup.picasso.Picasso
 class MarvelAdapter(
     var items: List<MarvelChars>,
     // En Java es Void, en Kotlin es Unit
-    private var fnClick: (MarvelChars) -> Unit
+    private var fnClick: (MarvelChars) -> Unit,
+    private var fnSave : (MarvelChars) -> Boolean
 ) :
 
     RecyclerView.Adapter<MarvelAdapter.MarvelViewHolder>() {
@@ -21,7 +22,11 @@ class MarvelAdapter(
 
         private val binding: MarvelCharactersBinding = MarvelCharactersBinding.bind(view)
 
-        fun render(item: MarvelChars, fnClick: (MarvelChars) -> Unit) {
+        fun render(
+            item: MarvelChars,
+            fnClick: (MarvelChars) -> Unit,
+            fnSave : (MarvelChars) -> Boolean
+        ) {
             // En esta funcion se realizan los cambios
             println("Recibiendo a ${item.nombre}")
             //binding.imageView2.bringToFront()
@@ -38,6 +43,10 @@ class MarvelAdapter(
                 ).setBackgroundTint(Color.rgb(247, 147, 76)).show()
                  */
                 fnClick(item)
+            }
+
+            binding.btnSave.setOnClickListener {
+                fnSave(item)
             }
         }
     }
@@ -56,7 +65,7 @@ class MarvelAdapter(
     }
 
     override fun onBindViewHolder(holder: MarvelAdapter.MarvelViewHolder, position: Int) {
-        holder.render(items[position], fnClick)
+        holder.render(items[position], fnClick, fnSave)
     }
 
     override fun getItemCount(): Int = items.size

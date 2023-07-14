@@ -11,8 +11,8 @@
     <item
         android:id="@+id/fav"
         android:enabled="true"
-        android:icon="@drawable/baseline_star_24"
-        android:title="Favoritos"
+        android:icon="@drawable/search_24"
+        android:title="Busqueda Marvel"
         android:visible="true" />
     <item
         android:id="@+id/chat_gpt"
