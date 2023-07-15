@@ -13,6 +13,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.widget.addTextChangedListener
+import androidx.datastore.dataStoreFile
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,11 +25,16 @@ import com.example.dispositivosmoviles.databinding.FragmentFirstBinding
 import com.example.dispositivosmoviles.logic.data.getMarvelCharsDB
 import com.example.dispositivosmoviles.logic.marvel_logic.MarvelLogic
 import com.example.dispositivosmoviles.ui.activities.DetailsMarvelItem
+import com.example.dispositivosmoviles.ui.activities.dataStore
 import com.example.dispositivosmoviles.ui.adapters.MarvelAdapter
+import com.example.dispositivosmoviles.ui.data.UserDataStore
 import com.example.dispositivosmoviles.ui.utilities.DispositivosMoviles
 import com.example.dispositivosmoviles.ui.utilities.Metodos
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.Dispatcher
@@ -82,6 +89,17 @@ class FirstFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            getDataStore()
+                .collect() {
+//                binding.txtFilter.text = it
+                    Log.d("UCE", it.name)
+                    Log.d("UCE", it.email)
+                    Log.d("UCE", it.session)
+                }
+        }
+
 
         /*
         val names = arrayListOf<String>(
@@ -191,7 +209,8 @@ class FirstFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO) {
                 if (DispositivosMoviles.getDbInstance().marvelDao()
-                        .getOneCharacter(item.id) == null) {
+                        .getOneCharacter(item.id) == null
+                ) {
                     DispositivosMoviles
                         .getDbInstance()
                         .marvelDao()
@@ -200,6 +219,16 @@ class FirstFragment : Fragment() {
             }
         }
         return true
+    }
+
+    private fun getDataStore(): Flow<UserDataStore> {
+        return requireActivity().dataStore.data.map { prefs ->
+            UserDataStore(
+                name = prefs[stringPreferencesKey("usuario")].orEmpty(),
+                email = prefs[stringPreferencesKey("email")].orEmpty(),
+                session = prefs[stringPreferencesKey("password")].orEmpty()
+            )
+        }
     }
 
     // Serializacion: proceso de pasar de un objeto a un string para poder enviarlo por medio de la web

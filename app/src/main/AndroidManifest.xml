@@ -21,7 +21,7 @@
             android:name=".ui.activities.DetailsMarvelItem"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.ActivityWithBinding"
+            android:name=".ui.activities.EjercicioPracticoActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.EjercicioPracticoActivity"
+            android:name=".ui.activities.ActivityWithBinding"
             android:exported="false"></activity>
         <activity
             android:name=".ui.activities.MainActivity"
