@@ -7,7 +7,6 @@
 
     <application
         android:name=".ui.utilities.DispositivosMoviles"
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,7 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DispositivosMoviles"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.activities.ResultActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activities.DetailsMarvelItem"
             android:exported="false" />
@@ -31,10 +34,10 @@
         </activity>
         <activity
             android:name=".ui.activities.ActivityWithBinding"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".ui.activities.MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"
