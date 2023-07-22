@@ -1,5 +1,6 @@
 package com.example.dispositivosmoviles.ui.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.dispositivosmoviles.R
@@ -17,14 +18,17 @@ class ResultActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        binding.btnOK.setOnClickListener{
-            setResult(RESULT_OK)
-            //cierra sesion y borra lo que yo tengo archivos temporales
+        binding.btnOK.setOnClickListener {
+            val i = Intent()
+            i.putExtra("result", "Resultado Exitoso")
+            setResult(RESULT_OK, i)
             finish()
         }
 
         binding.btnFalse.setOnClickListener{
-            setResult(RESULT_CANCELED)
+            val i = Intent()
+            i.putExtra("result", "Resultado Fallido")
+            setResult(RESULT_CANCELED, i)
             finish()
         }
     }

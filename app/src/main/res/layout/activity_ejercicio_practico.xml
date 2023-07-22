@@ -181,21 +181,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button5" />
 
-    <TextView
-        android:id="@+id/textView11"
+    <Button
+        android:id="@+id/micro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="58dp"
-        android:layout_marginTop="28dp"
 
-        android:layout_marginEnd="@dimen/margin_sides"
+        android:layout_marginBottom="8dp"
         android:text="Registrese"
         android:textColor="#E85757"
-
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView10" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
