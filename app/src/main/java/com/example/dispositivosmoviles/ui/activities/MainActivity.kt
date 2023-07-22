@@ -33,8 +33,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEjercicioPracticoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
     }
 
     // Para iniciar la funcion y evitar problemas con la inicializacion del Binding
