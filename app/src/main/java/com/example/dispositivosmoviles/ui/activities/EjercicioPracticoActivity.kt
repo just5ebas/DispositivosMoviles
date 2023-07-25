@@ -6,10 +6,13 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import android.speech.RecognizerIntent
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -21,7 +24,11 @@ import com.example.dispositivosmoviles.R
 import com.example.dispositivosmoviles.databinding.ActivityEjercicioPracticoBinding
 import com.example.dispositivosmoviles.ui.validator.LoginValidator
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,6 +43,110 @@ class EjercicioPracticoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEjercicioPracticoBinding
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallBack: LocationCallback
+
+    private var currentLocation: Location? = null
+
+    private val speechToText =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            val sn = Snackbar.make(
+                binding.root,
+                "",
+                Snackbar.LENGTH_LONG
+            )
+
+            var message = ""
+            when (activityResult.resultCode) {
+                RESULT_OK -> {
+                    val msg =
+                        activityResult.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                            .toString()
+                    if (msg.isNotEmpty()) {
+                        val intent = Intent(
+                            Intent.ACTION_WEB_SEARCH
+                        )
+                        intent.setClassName(
+                            "com.google.android.googlequicksearchbox",
+                            "com.google.android.googlequicksearchbox.SearchActivity"
+                        )
+                        intent.putExtra(SearchManager.QUERY, msg.toString())
+                        startActivity(intent)
+                    }
+                }
+
+
+                RESULT_CANCELED -> {
+                    message = "Proceso Cancelado"
+                    sn.setBackgroundTint(resources.getColor(R.color.rojo_pasion))
+                }
+
+                else -> {
+                    message = "Resultado Erroneo"
+                    sn.setBackgroundTint(resources.getColor(R.color.rojo_pasion))
+                }
+
+            }
+            sn.setText(message)
+            sn.show()
+
+        }
+
+    @SuppressLint("MissingPermission")
+    private val locationContract =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            when (isGranted) {
+                true -> {
+                    val task = fusedLocationProviderClient.lastLocation
+
+                    task.addOnSuccessListener { location ->
+
+                        val alert = AlertDialog.Builder(this) // Podemos poner estilos junto al this (this, androidx.appcompat.R.style.Platform_ThemeOverlay_AppCompat_Dark)
+                        alert.apply {
+                            setTitle("ALERTA")
+                            setMessage("Existe un problema de posicionamiento global en el sistema")
+                            setPositiveButton("OK") { dialog, id ->
+                                dialog.dismiss()
+                            }
+                            setNegativeButton("NO") { dialog, id ->
+                                dialog.dismiss()
+                            }
+                            setCancelable(false) // Para que unicamente se abandone el mensaje si se presiona el boton
+                        }.create()
+                        alert.show()
+
+                        fusedLocationProviderClient.requestLocationUpdates(
+                            locationRequest,
+                            locationCallBack,
+                            Looper.getMainLooper()
+                        )
+                    }
+
+                    task.addOnFailureListener {
+
+                    }
+                }
+
+                shouldShowRequestPermissionRationale(
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) -> {
+                    Snackbar.make(
+                        binding.textView3,
+                        "Ayude con el permiso por fa",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+
+                false -> {
+                    Snackbar.make(
+                        binding.textView3,
+                        "Permiso denegado",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,18 +154,46 @@ class EjercicioPracticoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        locationRequest = LocationRequest.Builder(
+            Priority.PRIORITY_HIGH_ACCURACY,
+            2000
+        ).setMaxUpdates(3).build()
+
+        locationCallBack = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+
+                if (locationResult != null) {
+                    locationResult.locations.forEach { location ->
+                        currentLocation = location
+                        Log.d(
+                            "UCE",
+                            "Ubicacion: ${location.latitude}, ${location.longitude}"
+                        )
+                    }
+                }
+            }
+        }
+
     }
 
     override fun onStart() {
         super.onStart()
         initClass()
+
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
     }
 
-    @SuppressLint("MissingPermission")
+    override fun onPause() {
+        super.onPause()
+
+        fusedLocationProviderClient.removeLocationUpdates(locationCallBack)
+    }
+
     fun initClass() {
         binding.button2.setOnClickListener {
 
@@ -137,104 +276,11 @@ class EjercicioPracticoActivity : AppCompatActivity() {
                 sn.show()
             }
 
-
-        val speechToText =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
-                val sn = Snackbar.make(
-                    binding.root,
-                    "",
-                    Snackbar.LENGTH_LONG
-                )
-
-                var message = ""
-                when (activityResult.resultCode) {
-                    RESULT_OK -> {
-                        val msg =
-                            activityResult.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                                .toString()
-                        if (msg.isNotEmpty()) {
-                            val intent = Intent(
-                                Intent.ACTION_WEB_SEARCH
-                            )
-                            intent.setClassName(
-                                "com.google.android.googlequicksearchbox",
-                                "com.google.android.googlequicksearchbox.SearchActivity"
-                            )
-                            intent.putExtra(SearchManager.QUERY, msg.toString())
-                            startActivity(intent)
-                        }
-                    }
-
-
-                    RESULT_CANCELED -> {
-                        message = "Proceso Cancelado"
-                        sn.setBackgroundTint(resources.getColor(R.color.rojo_pasion))
-                    }
-
-                    else -> {
-                        message = "Resultado Erroneo"
-                        sn.setBackgroundTint(resources.getColor(R.color.rojo_pasion))
-                    }
-
-                }
-                sn.setText(message)
-                sn.show()
-
-            }
-
         //Diferencia con la primera es que las 2 se van a comunicar y cuando lo hagan se va alanzar este contrato
         binding.btnResult.setOnClickListener {
             val resIntent = Intent(this, ResultActivity::class.java)
             appResultLocal.launch(resIntent)
         }
-
-        val locationContract =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-                when (isGranted) {
-                    true -> {
-
-                        val task = fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-                            val a = Geocoder(this)
-                            a.getFromLocation(it.latitude, it.longitude, 1)
-                        }
-
-//                        task.addOnSuccessListener {
-//                            if (task.result != null) {
-//                                Snackbar.make(
-//                                    binding.textView3,
-//                                    "${it.latitude}, ${it.longitude}",
-//                                    Snackbar.LENGTH_LONG
-//                                ).show()
-//                            } else {
-//                                Snackbar.make(
-//                                    binding.textView3,
-//                                    "Encienda el GPS por favor",
-//                                    Snackbar.LENGTH_LONG
-//                                ).show()
-//                            }
-//                        }
-
-                    }
-
-                    shouldShowRequestPermissionRationale(
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) -> {
-                        Snackbar.make(
-                            binding.textView3,
-                            "Ayude con el permiso por fa",
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    }
-
-                    false -> {
-                        Snackbar.make(
-                            binding.textView3,
-                            "Permiso denegado",
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    }
-                }
-            }
 
 
         binding.textView10.setOnClickListener {
