@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
+import android.provider.Settings
 import android.speech.RecognizerIntent
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,13 +23,18 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import com.example.dispositivosmoviles.R
 import com.example.dispositivosmoviles.databinding.ActivityEjercicioPracticoBinding
+import com.example.dispositivosmoviles.ui.utilities.MyLocationManager
 import com.example.dispositivosmoviles.ui.validator.LoginValidator
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.gms.location.Priority
+import com.google.android.gms.location.SettingsClient
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,11 +47,13 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 class EjercicioPracticoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEjercicioPracticoBinding
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    // Ubicacion GPS
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallBack: LocationCallback
-
+    private lateinit var client: SettingsClient
+    private lateinit var locationSettingsRequest: LocationSettingsRequest
     private var currentLocation: Location? = null
 
     private val speechToText =
@@ -97,34 +105,41 @@ class EjercicioPracticoActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             when (isGranted) {
                 true -> {
-                    val task = fusedLocationProviderClient.lastLocation
 
-                    task.addOnSuccessListener { location ->
+                    client.checkLocationSettings(locationSettingsRequest).apply {
+                        addOnSuccessListener {
+                            val task = fusedLocationProviderClient.lastLocation
 
-                        val alert = AlertDialog.Builder(this) // Podemos poner estilos junto al this (this, androidx.appcompat.R.style.Platform_ThemeOverlay_AppCompat_Dark)
-                        alert.apply {
-                            setTitle("ALERTA")
-                            setMessage("Existe un problema de posicionamiento global en el sistema")
-                            setPositiveButton("OK") { dialog, id ->
-                                dialog.dismiss()
+                            task.addOnSuccessListener { location ->
+                                fusedLocationProviderClient.requestLocationUpdates(
+                                    locationRequest,
+                                    locationCallBack,
+                                    Looper.getMainLooper()
+                                )
                             }
-                            setNegativeButton("NO") { dialog, id ->
-                                dialog.dismiss()
-                            }
-                            setCancelable(false) // Para que unicamente se abandone el mensaje si se presiona el boton
-                        }.create()
-                        alert.show()
+                        }
 
-                        fusedLocationProviderClient.requestLocationUpdates(
-                            locationRequest,
-                            locationCallBack,
-                            Looper.getMainLooper()
-                        )
+                        addOnFailureListener { ex ->
+                            if (ex is ResolvableApiException) {
+                                ex.startResolutionForResult(
+                                    this@EjercicioPracticoActivity,
+                                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED
+                                )
+                            }
+//                            val alert = AlertDialog.Builder(this@EjercicioPracticoActivity).apply {
+//                                setTitle("NOTIFICACION")
+//                                setMessage("Por favor verifique que el GPS este activo")
+//                                setPositiveButton("Verificar") { dialog, id ->
+//                                    val i = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+//                                    startActivity(i)
+//
+//                                    dialog.dismiss()
+//                                }
+//                                setCancelable(false)
+//                            }.show()
+                        }
                     }
 
-                    task.addOnFailureListener {
-
-                    }
                 }
 
                 shouldShowRequestPermissionRationale(
@@ -156,7 +171,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest.Builder(
             Priority.PRIORITY_HIGH_ACCURACY,
-            2000
+            5000
         ).setMaxUpdates(3).build()
 
         locationCallBack = object : LocationCallback() {
@@ -174,6 +189,10 @@ class EjercicioPracticoActivity : AppCompatActivity() {
                 }
             }
         }
+
+        client = LocationServices.getSettingsClient(this)
+        locationSettingsRequest =
+            LocationSettingsRequest.Builder().addLocationRequest(locationRequest).build()
 
     }
 
@@ -322,6 +341,11 @@ class EjercicioPracticoActivity : AppCompatActivity() {
             prefs[stringPreferencesKey("email")] = "dimoviles@uce.edu.ec"
             prefs[stringPreferencesKey("password")] = UUID.randomUUID().toString()
         }
+    }
+
+    private fun test(){
+        var location = MyLocationManager(this)
+        location.getUserLocation()
     }
 
 }
