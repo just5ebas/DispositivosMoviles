@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -31,7 +32,7 @@ class NotificationActivity : AppCompatActivity() {
         binding.btnNotification.setOnClickListener {
             // No es necesario crear el canal cada vez
             // Basta que se cree una primera vez
-            createNotificationChannel()
+//            createNotificationChannel()
 
             sendNotification()
         }
@@ -58,12 +59,25 @@ class NotificationActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     fun sendNotification() {
+
+        val intent = Intent(this, CameraActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_MUTABLE
+        )
+
         // Esta parte crea la notificacion
         val noti = NotificationCompat.Builder(this, CHANNEL)
             .setContentTitle("Primera notificacion")
             .setContentText("Tienes una notificacion") // Este texto se muestra cuando aparece la notificacion
             .setSmallIcon(R.drawable.tune_24)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
             .setStyle(NotificationCompat.BigTextStyle().bigText("Esta es una notificacion para recordar que estamos trabajando con Android")) // Este texto se muestra cuando se abre el gestor de notificaciones
 
         // Aqui se envia la notificacion

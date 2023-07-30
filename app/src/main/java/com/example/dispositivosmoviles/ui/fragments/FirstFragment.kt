@@ -337,6 +337,6 @@ class FirstFragment : Fragment() {
         } else {
             Snackbar.make(binding.cardView, "No hay conexion", Snackbar.LENGTH_LONG).show()
         }
-
     }
+
 }
