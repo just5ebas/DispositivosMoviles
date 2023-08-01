@@ -11,31 +11,29 @@ import com.example.dispositivosmoviles.R
 import com.example.dispositivosmoviles.ui.activities.NotificationActivity
 
 class BradCasterNotifications :BroadcastReceiver(){
-    val CHANNEL: String = "Solicitudes"
+    private val CHANNEL:String="Notificacion 1"
 
-    //parametros mandatorios
-    //siempre debo tener un contexto
     override fun onReceive(context: Context, intent: Intent) {
 
-        val myIntent=Intent(context,NotificationActivity::class.java)
 
-        val myPendingIntent=PendingIntent.getBroadcast(
+        val myIntent=Intent(context, NotificationActivity::class.java)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(
             context,
             0,
             myIntent,
-            PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_MUTABLE
         )
-
         val notif = NotificationCompat.Builder(context, CHANNEL)
-
-        notif.setContentTitle("Primera notificacion mi llave :v")
+        notif.setContentTitle("Broadcaster notificacion mi llave :v")
         notif.setContentText("Abre tu wea :v")
-        notif.setSmallIcon(com.google.android.material.R.drawable.abc_btn_colored_material)
-        notif.setPriority(NotificationCompat.PRIORITY_HIGH)
+        notif.setSmallIcon(R.drawable.baseline_chat_24)
+        notif.setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        notif.setContentIntent(pendingIntent)
+        notif.setAutoCancel(true)
 
         notif.setStyle(
             NotificationCompat.BigTextStyle()
-                .bigText("Esta es una notificacion en android que no se te olvide xd")
+                .bigText("alo")
         )
 
         //crear un manager de tipo broadcast
@@ -45,6 +43,7 @@ class BradCasterNotifications :BroadcastReceiver(){
             1,
             notif.build()
         )
+
 
     }
 

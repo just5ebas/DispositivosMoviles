@@ -25,70 +25,79 @@ import java.util.Calendar
 class NotificationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNotificationBinding
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityNotificationBinding.inflate(layoutInflater)
+        //Se debe ubicar en un lugar donde se cree una sola vez
+        //Just once
+        createNotificationChannel()
+
         setContentView(binding.root)
 
         binding.btnNotification.setOnClickListener {
-            // No es necesario crear el canal cada vez
-            // Basta que se cree una primera vez
-           createNotificationChannel()
-
+            //createNotificationChannel()
             sendNotification()
         }
+        binding.btnNotificationProgramada.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val hora = binding.timePicker.hour
+            val minutes = binding.timePicker.minute
 
-        binding.btnNotificationProgramada.setOnClickListener{
-            val calendar=Calendar.getInstance()
-            val hora=binding.timePicker.hour
-            val minutes=binding.timePicker.minute
-            Toast.makeText(this,"La hora es: $hora con $minutes",Toast.LENGTH_SHORT).show()
-            calendar.set(Calendar.HOUR,hora)
-            calendar.set(Calendar.MINUTE,minutes)
-            calendar.set(Calendar.SECOND,0)
+            Toast.makeText(
+                this,
+                "La notificacion se activa a las: $hora con $minutes",
+                Toast.LENGTH_LONG
+            ).show()
+            calendar.set(Calendar.HOUR, hora)
+            calendar.set(Calendar.MINUTE, minutes)
+            calendar.set(Calendar.SECOND, 0)
+
             sendNotificationTimePicker(calendar.timeInMillis)
         }
     }
 
-    private val CHANNEL: String = "Notificacion"
+    //Construccion externa del canal
+    val CHANNEL: String = "Notificacion 1"
+
+//Implementar el pending y flag
 
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Variedades"
-            val descriptionText = "Notificaciones simples de variedades"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val name = "Canal principal1"
+            val descriptionText = "Canal de notificaciones de variedades"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            //(ID DEL CANAL,name,importance)
             val channel = NotificationChannel(CHANNEL, name, importance).apply {
                 description = descriptionText
             }
-            // Registrar el canal en el sistema
+            // Register the channel with the system
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
 
-    private fun sendNotificationTimePicker(time:Long){
-        val myIntent=Intent(applicationContext,BradCasterNotifications::class.java)
-
-        val myPendingIntent=PendingIntent.getBroadcast(
+    //Las echas se mandan como long
+    private fun sendNotificationTimePicker(time: Long) {
+        val myIntent = Intent(applicationContext, BradCasterNotifications::class.java)
+        //No va a hacer que cuando este abierta actualice la aplicacion a la pantalla, y si es que no esta abierta que abra una nueva (Banderas)
+        val myPendingIntent = PendingIntent.getBroadcast(
             applicationContext,
             0,
             myIntent,
-        PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val alarmManager=getSystemService(Context.ALARM_SERVICE)as AlarmManager
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP,time,myPendingIntent)
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, myPendingIntent)
+
     }
 
     @SuppressLint("MissingPermission")
     fun sendNotification() {
-
+        //Contruccion internar de la notificacion
         val intent = Intent(this, CameraActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -103,15 +112,19 @@ class NotificationActivity : AppCompatActivity() {
         val noti = NotificationCompat.Builder(this, CHANNEL)
             .setContentTitle("Primera notificacion")
             .setContentText("Tienes una notificacion") // Este texto se muestra cuando aparece la notificacion
-            .setSmallIcon(R.drawable.tune_24)
+            .setSmallIcon(R.drawable.baseline_chat_24)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
-            .setStyle(NotificationCompat.BigTextStyle().bigText("Esta es una notificacion para recordar que estamos trabajando con Android")) // Este texto se muestra cuando se abre el gestor de notificaciones
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText("Esta es una notificacion para recordar que estamos trabajando con Android")
+            ) // Este texto se muestra cuando se abre el gestor de notificaciones
 
         // Aqui se envia la notificacion
-        with(NotificationManagerCompat.from(this)){
+        with(NotificationManagerCompat.from(this)) {
             notify(1, noti.build())
         }
     }
+
 }
