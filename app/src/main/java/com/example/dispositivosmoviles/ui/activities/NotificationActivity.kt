@@ -2,6 +2,7 @@ package com.example.dispositivosmoviles.ui.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -11,12 +12,15 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.dispositivosmoviles.R
 import com.example.dispositivosmoviles.databinding.ActivityCameraBinding
 import com.example.dispositivosmoviles.databinding.ActivityNotificationBinding
+import com.example.dispositivosmoviles.ui.utilities.BradCasterNotifications
+import java.util.Calendar
 
 class NotificationActivity : AppCompatActivity() {
 
@@ -32,9 +36,20 @@ class NotificationActivity : AppCompatActivity() {
         binding.btnNotification.setOnClickListener {
             // No es necesario crear el canal cada vez
             // Basta que se cree una primera vez
-//            createNotificationChannel()
+           createNotificationChannel()
 
             sendNotification()
+        }
+
+        binding.btnNotificationProgramada.setOnClickListener{
+            val calendar=Calendar.getInstance()
+            val hora=binding.timePicker.hour
+            val minutes=binding.timePicker.minute
+            Toast.makeText(this,"La hora es: $hora con $minutes",Toast.LENGTH_SHORT).show()
+            calendar.set(Calendar.HOUR,hora)
+            calendar.set(Calendar.MINUTE,minutes)
+            calendar.set(Calendar.SECOND,0)
+            sendNotificationTimePicker(calendar.timeInMillis)
         }
     }
 
@@ -55,6 +70,20 @@ class NotificationActivity : AppCompatActivity() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    private fun sendNotificationTimePicker(time:Long){
+        val myIntent=Intent(applicationContext,BradCasterNotifications::class.java)
+
+        val myPendingIntent=PendingIntent.getBroadcast(
+            applicationContext,
+            0,
+            myIntent,
+        PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val alarmManager=getSystemService(Context.ALARM_SERVICE)as AlarmManager
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,time,myPendingIntent)
     }
 
     @SuppressLint("MissingPermission")

@@ -6,13 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.NotificationActivity">
 
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        ></TimePicker>
+
     <Button
         android:id="@+id/btn_notification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="60dp"
+        android:layout_marginTop="448dp"
         android:text="Enviar Notificacion"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.548"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+
+    <Button
+        android:id="@+id/btn_notificationProgramada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="60dp"
+        android:layout_marginTop="132dp"
+        android:backgroundTint="@color/rojo_pasion"
+        android:text="Enviar Notificacion Programada"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.61"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_notification" />
 </androidx.constraintlayout.widget.ConstraintLayout>
