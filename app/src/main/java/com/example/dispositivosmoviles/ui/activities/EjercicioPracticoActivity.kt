@@ -56,7 +56,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
-    private val TAG="UCE"
+    private val TAG = "UCE"
 
     // Ubicacion GPS
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -206,14 +206,21 @@ class EjercicioPracticoActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        binding.button2.setOnClickListener{
-    authWithFirabaseEmail(
-        binding.txtName.text.toString(),
-        binding.txtPassword.text.toString())
+//        binding.button2.setOnClickListener {
+//            authWithFirabaseEmail(
+//                binding.txtName.text.toString(),
+//                binding.txtPassword.text.toString()
+//            )
+//        }
+        binding.button2.setOnClickListener {
+            singInWhitEmailAndPassword(
+                binding.txtName.text.toString(),
+                binding.txtPassword.text.toString()
+            )
         }
     }
 
-    private fun authWithFirabaseEmail(email:String,password:String){
+    private fun authWithFirabaseEmail(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -238,7 +245,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
             }
     }
 
-    private  fun singInWhitEmailAndPassword(email:String, password: String){
+    private fun singInWhitEmailAndPassword(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -261,12 +268,14 @@ class EjercicioPracticoActivity : AppCompatActivity() {
             }
     }
 
-    private fun recoveryPasswordWithEmail(email: String){
+    private fun recoveryPasswordWithEmail(email: String) {
         auth.sendPasswordResetEmail(email)
-            .addOnCompleteListener{task->
-                if (task.isSuccessful){
-                    Toast.makeText(this,"Correo de recuperacion enviado correctamente",
-                        Toast.LENGTH_SHORT).show()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(
+                        this, "Correo de recuperacion enviado correctamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                     MaterialAlertDialogBuilder(this).apply {
                         setTitle("Alert")
@@ -279,7 +288,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-       // initClass()
+        initClass()
 
 
     }
@@ -424,7 +433,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
         }
     }
 
-    private fun test(){
+    private fun test() {
         var location = MyLocationManager(this)
         location.getUserLocation()
     }
