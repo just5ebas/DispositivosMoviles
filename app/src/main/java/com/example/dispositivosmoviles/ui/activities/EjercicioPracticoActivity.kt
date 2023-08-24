@@ -253,7 +253,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
                     val user = auth.currentUser
 
                     // updateUI(user)
-                    startActivity(Intent(this, BiometricActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
