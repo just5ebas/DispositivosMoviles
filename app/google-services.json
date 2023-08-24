@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "135100834945",
-    "project_id": "practica-uce-899f4",
-    "storage_bucket": "practica-uce-899f4.appspot.com"
+    "project_number": "92543480184",
+    "project_id": "proyectodismov-73fd0",
+    "storage_bucket": "proyectodismov-73fd0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:135100834945:android:6cf86da73d78e863845980",
+        "mobilesdk_app_id": "1:92543480184:android:3ec4a40047ddbb655b988d",
         "android_client_info": {
           "package_name": "com.example.dispositivosmoviles"
         }
       },
       "oauth_client": [
         {
-          "client_id": "135100834945-f4j04egu6eap3b662ovg7sokenggm3vi.apps.googleusercontent.com",
+          "client_id": "92543480184-c4bodm01rme946g50rt2ojh5n7vl3h5v.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAq8td7D5gtj2F6xVfjfhg75V5H2gVLl0w"
+          "current_key": "AIzaSyA3AiZ33UarVpcJnKkn-8wZZvy76t0VfsI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "135100834945-f4j04egu6eap3b662ovg7sokenggm3vi.apps.googleusercontent.com",
+              "client_id": "92543480184-c4bodm01rme946g50rt2ojh5n7vl3h5v.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

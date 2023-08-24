@@ -205,47 +205,45 @@ class EjercicioPracticoActivity : AppCompatActivity() {
             LocationSettingsRequest.Builder().addLocationRequest(locationRequest).build()
 
         auth = Firebase.auth
-
-//        binding.button2.setOnClickListener {
-//            authWithFirabaseEmail(
-//                binding.txtName.text.toString(),
-//                binding.txtPassword.text.toString()
-//            )
-//        }
         binding.button2.setOnClickListener {
-            singInWhitEmailAndPassword(
-                binding.txtName.text.toString(),
-                binding.txtPassword.text.toString()
-            )
+
+       /*     autWithFirebaseEmail(binding.txtName.text.toString(),
+            binding.txtPassword.text.toString())
+        */
+            singInWhitEmailAndPassword(binding.txtName.text.toString(),
+            binding.txtPassword.text.toString())
         }
     }
 
-    private fun authWithFirabaseEmail(email: String, password: String) {
+    private fun autWithFirebaseEmail(email:String , password:String){
         auth.createUserWithEmailAndPassword(email, password)
+            //corrutinas con invocadores
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d(Constants.TAG, "createUserWithEmail:success")
+                    Log.d(Constants.TAG, "createUserWithEmailAndPassword:success")
+                    //Se puede usar varias opciones como recargar el usuario o verificar
                     val user = auth.currentUser
-                    Log.w(Constants.TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(
                         baseContext,
                         "Authentication success.",
                         Toast.LENGTH_SHORT,
                     ).show()
+
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w(Constants.TAG, "createUserWithEmail:failure", task.exception)
+                    Log.w(Constants.TAG, "createUserWithEmailAndPassword:failure", task.exception)
                     Toast.makeText(
                         baseContext,
                         "Authentication failed.",
                         Toast.LENGTH_SHORT,
                     ).show()
+
                 }
             }
     }
 
-    private fun singInWhitEmailAndPassword(email: String, password: String) {
+    private  fun singInWhitEmailAndPassword(email:String, password: String){
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -268,27 +266,31 @@ class EjercicioPracticoActivity : AppCompatActivity() {
             }
     }
 
-    private fun recoveryPasswordWithEmail(email: String) {
-        auth.sendPasswordResetEmail(email)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(
-                        this, "Correo de recuperacion enviado correctamente",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    MaterialAlertDialogBuilder(this).apply {
-                        setTitle("Alert")
-                        setMessage("Correo de recuperacion enviado correctamente")
-                        setCancelable(true)
-                    }
+    private fun recoveryPasswordWithEmail(email: String){
+        auth.sendPasswordResetEmail(email).addOnCompleteListener{task->
+            //Es una tarea
+            if (task.isSuccessful){
+                Toast.makeText(
+                    this,
+                    "Correo de recuperacion enviado correctamente",
+                    Toast.LENGTH_SHORT,
+                ).show()
+                MaterialAlertDialogBuilder(this).apply {
+                    setTitle("Alert")
+                    setMessage("Correo de recuperacion enviado correctamente")
+                    setCancelable(true)
                 }
+
+            }else{
+
             }
+
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        initClass()
+      //  initClass()
 
 
     }
@@ -304,7 +306,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
     }
 
     fun initClass() {
-        binding.button2.setOnClickListener {
+    /*    binding.button2.setOnClickListener {
 
             val check = LoginValidator().checkLogin(
                 binding.txtName.text.toString(),
@@ -333,7 +335,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
                 ).setBackgroundTint(Color.rgb(232, 87, 87)).show()
             }
 
-        }
+        }*/
 
         //Intent puedo mandar cualquier cosa
         binding.micro.setOnClickListener {
