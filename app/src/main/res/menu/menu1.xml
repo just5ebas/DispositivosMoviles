@@ -18,6 +18,6 @@
         android:id="@+id/chat_gpt"
         android:enabled="true"
         android:icon="@drawable/baseline_chat_24"
-        android:title="Chat GPT"
+        android:title="Fragment"
         android:visible="true" />
 </menu>

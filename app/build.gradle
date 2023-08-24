@@ -96,6 +96,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
 
+
     //gifs
     implementation 'com.airbnb.android:lottie:3.4.2'
 

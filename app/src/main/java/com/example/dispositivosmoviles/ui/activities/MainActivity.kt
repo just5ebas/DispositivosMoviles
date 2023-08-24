@@ -107,7 +107,9 @@ class MainActivity : AppCompatActivity() {
             val resIntent = Intent(this, ResultActivity::class.java)
             appResultLocal.launch(resIntent)
         }
-        binding.funcion7.setOnClickListener { }
+        binding.funcion7.setOnClickListener {
+            finishAffinity()
+        }
 
     }
 

@@ -4,6 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.provider.Settings.ACTION_BIOMETRIC_ENROLL
+import android.provider.Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED
+import android.util.Log
+import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
@@ -27,74 +31,72 @@ class BiometricActivity : AppCompatActivity() {
     }
 
     private fun autenticateBiometric() {
-        if (checkBiometric()) {
+        if(checkBiometric()){
             val executor = ContextCompat.getMainExecutor(this)
 
-            val biometricPrompt = BiometricPrompt.PromptInfo.Builder()
+            val biometricPromp = BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Autenticación Requerida")
                 .setSubtitle("Ingrese su huella digital")
+                .setDescription("Necesitamos su atenticacion para poder ingresar a las funcionalidades.")
                 .setAllowedAuthenticators(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
-                .setNegativeButtonText("Cancelar")
                 .build()
-
-            val biometricManager = BiometricPrompt(
-                this,
-                executor, // Podemos tambien enviar mainExecutor pero este corresponde a un contexto global de la aplicacion
-                // la idea no es tomar contextos generales, sino contextos locales.
+            val biometricManager = BiometricPrompt(this, executor,
                 object : BiometricPrompt.AuthenticationCallback() {
                     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                         super.onAuthenticationError(errorCode, errString)
+                        Toast.makeText(
+                            baseContext,
+                            "Autenticacion Biometrica Erronea.",
+                            Toast.LENGTH_SHORT,
+                        ).show()
                     }
 
                     override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                         super.onAuthenticationSucceeded(result)
-                        //Intent(this, CameraActivity::class.java)
+                        startActivity(Intent(this@BiometricActivity, MainActivity::class.java))
                     }
 
                     override fun onAuthenticationFailed() {
                         super.onAuthenticationFailed()
+                        Toast.makeText(
+                            baseContext,
+                            "Authenticacion Biometrica Falló.",
+                            Toast.LENGTH_SHORT,
+                        ).show()
                     }
-                }
-            )
-
-            biometricManager.authenticate(biometricPrompt)
-        } else {
-            Snackbar.make(
-                binding.btnAutenticator,
-                "No existe los requisistos...",
-                Snackbar.LENGTH_LONG
-            ).show()
+                })
+            biometricManager.authenticate(biometricPromp)
+        }else{
+            Snackbar.make(binding.btnAutenticator,"Noexistenrequisitos",Snackbar.LENGTH_LONG).show()
         }
+
+
     }
-
-    private fun checkBiometric(): Boolean {
-        val biometricManager = BiometricManager.from(this)
-        var returnValid = false
-
-        when (biometricManager.canAuthenticate(
+    private fun checkBiometric():Boolean{
+        val biometricManager= BiometricManager.from(this)
+        var returnValid=false
+        Log.d("Error2","error")
+        when(biometricManager.canAuthenticate(
             BIOMETRIC_STRONG or DEVICE_CREDENTIAL
-        )) {
-            BiometricManager.BIOMETRIC_SUCCESS -> {
-                returnValid = true
+        )){
+            BiometricManager.BIOMETRIC_SUCCESS ->{
+                returnValid= true
             }
-
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                returnValid = false
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE->{
+                Log.d("Error1","error")
+                returnValid= false
             }
-
-            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-                returnValid = false
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE->{
+                Log.d("Error2","error")
+                returnValid= false
             }
-
-            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                val intentPrompt = Intent(Settings.ACTION_BIOMETRIC_ENROLL)
-                intentPrompt.putExtra(
-                    Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                    BIOMETRIC_STRONG or DEVICE_CREDENTIAL
-                )
-                startActivity(intentPrompt)
-
-                returnValid = false
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED->{
+                Log.d("Error3","error")
+                val intentPromp= Intent(ACTION_BIOMETRIC_ENROLL)
+                intentPromp.putExtra(EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                    BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
+                startActivity(intentPromp)
+                returnValid=false
             }
         }
         return returnValid

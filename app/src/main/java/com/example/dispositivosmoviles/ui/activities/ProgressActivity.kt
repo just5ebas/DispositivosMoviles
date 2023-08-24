@@ -46,7 +46,8 @@ class ProgressActivity : AppCompatActivity() {
 
         binding.btnProceso1.setOnClickListener {
             lifecycleScope.launch(Dispatchers.Main) {
-                progressViewModel.getMarvelChars(0, 90)
+                //progressViewModel.getMarvelChars(0, 90)
+                progressViewModel.progressBackground(6000)
             }
         }
     }

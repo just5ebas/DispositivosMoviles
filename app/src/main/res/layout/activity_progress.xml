@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#26B1A0"
     tools:context=".ui.activities.ProgressActivity">
 
 
@@ -12,60 +13,65 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="Actividad Progress"
+        android:layout_marginTop="20dp"
+        android:text="Tiempos de espera"
+        android:textColor="@color/white"
         android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_proceso"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Ejecutar 3s"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="#ce8b4d"
+        android:text="3 segundos"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tituloNotifiacion" />
-
     <Button
         android:id="@+id/btn_proceso1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="100dp"
         android:layout_marginTop="30dp"
-        android:backgroundTint="@color/naranja4"
-        android:text="Ejecutar 6s"
+        android:backgroundTint="#EFDD8D"
+        android:text="6 segundos"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_proceso" />
 
     <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloNotifiacion"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/cargando" />
+
+
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationBiometric"
         android:layout_width="320dp"
         android:layout_height="220dp"
-        android:layout_marginTop="110dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_proceso1"
-        app:layout_constraintVertical_bias="1.0"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/waiting" />

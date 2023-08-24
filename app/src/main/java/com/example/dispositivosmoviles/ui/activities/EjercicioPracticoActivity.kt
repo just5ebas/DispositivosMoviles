@@ -182,7 +182,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
         locationRequest = LocationRequest.Builder(
             Priority.PRIORITY_HIGH_ACCURACY,
             5000
-        ).setMaxUpdates(3).build()
+        ).setMaxUpdates(1).build()
 
         locationCallBack = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -208,43 +208,17 @@ class EjercicioPracticoActivity : AppCompatActivity() {
         auth = Firebase.auth
         binding.button2.setOnClickListener {
 
-       /*     autWithFirebaseEmail(binding.txtName.text.toString(),
-            binding.txtPassword.text.toString())
-        */
-            singInWhitEmailAndPassword(binding.txtName.text.toString(),
-            binding.txtPassword.text.toString())
+            /*     autWithFirebaseEmail(binding.txtName.text.toString(),
+                 binding.txtPassword.text.toString())
+             */
+            singInWhitEmailAndPassword(
+                binding.txtName.text.toString(),
+                binding.txtPassword.text.toString()
+            )
         }
     }
 
-    private fun autWithFirebaseEmail(email:String , password:String){
-        auth.createUserWithEmailAndPassword(email, password)
-            //corrutinas con invocadores
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(Constants.TAG, "createUserWithEmailAndPassword:success")
-                    //Se puede usar varias opciones como recargar el usuario o verificar
-                    val user = auth.currentUser
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication success.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(Constants.TAG, "createUserWithEmailAndPassword:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-
-                }
-            }
-    }
-
-    private  fun singInWhitEmailAndPassword(email:String, password: String){
+    private fun singInWhitEmailAndPassword(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -253,7 +227,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
                     val user = auth.currentUser
 
                     // updateUI(user)
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, BiometricActivity::class.java))
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
@@ -267,10 +241,10 @@ class EjercicioPracticoActivity : AppCompatActivity() {
             }
     }
 
-    private fun recoveryPasswordWithEmail(email: String){
-        auth.sendPasswordResetEmail(email).addOnCompleteListener{task->
+    private fun recoveryPasswordWithEmail(email: String) {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
             //Es una tarea
-            if (task.isSuccessful){
+            if (task.isSuccessful) {
                 Toast.makeText(
                     this,
                     "Correo de recuperacion enviado correctamente",
@@ -282,7 +256,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
                     setCancelable(true)
                 }
 
-            }else{
+            } else {
 
             }
 
@@ -291,9 +265,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-      //  initClass()
-
-
+        initClass()
     }
 
     override fun onDestroy() {
@@ -307,58 +279,62 @@ class EjercicioPracticoActivity : AppCompatActivity() {
     }
 
     fun initClass() {
-    /*    binding.button2.setOnClickListener {
+        /*    binding.button2.setOnClickListener {
 
-            val check = LoginValidator().checkLogin(
-                binding.txtName.text.toString(),
-                binding.txtPassword.text.toString()
-            )
-
-            if (check) {
-
-                lifecycleScope.launch(Dispatchers.IO) {
-                    saveDataStore(binding.txtName.text.toString())
-                }
-
-                var intent = Intent(
-                    this,
-                    MainActivity::class.java
+                val check = LoginValidator().checkLogin(
+                    binding.txtName.text.toString(),
+                    binding.txtPassword.text.toString()
                 )
 
-                startActivity(intent)
-            } else {
-                Snackbar.make(
-                    binding.button2,
-                    "Usuario o contraseña incorrectos",
-                    Snackbar.LENGTH_SHORT
-                ).setBackgroundTint(Color.rgb(232, 87, 87)).show()
-            }
+                if (check) {
 
-        }*/
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        saveDataStore(binding.txtName.text.toString())
+                    }
+
+                    var intent = Intent(
+                        this,
+                        MainActivity::class.java
+                    )
+
+                    startActivity(intent)
+                } else {
+                    Snackbar.make(
+                        binding.button2,
+                        "Usuario o contraseña incorrectos",
+                        Snackbar.LENGTH_SHORT
+                    ).setBackgroundTint(Color.rgb(232, 87, 87)).show()
+                }
+
+            }*/
 
         //Intent puedo mandar cualquier cosa
+//        binding.micro.setOnClickListener {
+//            //Abre una url con un boton, este intent tiene un punto de partida pero no de llegada
+//            //con geo: se puede mandar la latitud y longitud de una pos del mapa
+//            /*  val intent=Intent(
+//                  Intent.ACTION_VIEW,
+//                  Uri.parse("tel:0997125604"))
+//              */
+//
+//            //tel:0997125604
+//            //"geo:-0.1924028,-78.5092874"
+//            //https://www.google.com.ec
+//
+//            //va hacer una busqueda en un paquete especifico
+//            //Los parametros para abrir una aplicacion especifica
+//            val intent = Intent(Intent.ACTION_WEB_SEARCH)
+//            intent.setClassName(
+//                "com.google.android.googlequicksearchbox",
+//                "com.google.android.googlequicksearchbox.SearchActivity"
+//            )
+//            //mandas extras enn los parametros en el intent
+//            intent.putExtra(SearchManager.QUERY, "UCE fing")
+//            startActivity(intent)
+//        }
+
         binding.micro.setOnClickListener {
-            //Abre una url con un boton, este intent tiene un punto de partida pero no de llegada
-            //con geo: se puede mandar la latitud y longitud de una pos del mapa
-            /*  val intent=Intent(
-                  Intent.ACTION_VIEW,
-                  Uri.parse("tel:0997125604"))
-              */
-
-            //tel:0997125604
-            //"geo:-0.1924028,-78.5092874"
-            //https://www.google.com.ec
-
-            //va hacer una busqueda en un paquete especifico
-            //Los parametros para abrir una aplicacion especifica
-            val intent = Intent(Intent.ACTION_WEB_SEARCH)
-            intent.setClassName(
-                "com.google.android.googlequicksearchbox",
-                "com.google.android.googlequicksearchbox.SearchActivity"
-            )
-            //mandas extras enn los parametros en el intent
-            intent.putExtra(SearchManager.QUERY, "UCE fing")
-            startActivity(intent)
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
 
         val appResultLocal =
@@ -393,7 +369,7 @@ class EjercicioPracticoActivity : AppCompatActivity() {
         }
 
 
-        binding.textView10.setOnClickListener {
+        binding.textView9.setOnClickListener {
             locationContract.launch(Manifest.permission.ACCESS_FINE_LOCATION)
 
 
@@ -405,6 +381,10 @@ class EjercicioPracticoActivity : AppCompatActivity() {
 //            intentSpeech.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
 //            intentSpeech.putExtra(RecognizerIntent.EXTRA_PROMPT, "Di algo")
 //            speechToText.launch(intentSpeech)
+        }
+
+        binding.textView10.setOnClickListener {
+            startActivity(Intent(this, PasswordActivity::class.java))
         }
 
         binding.button5.setOnClickListener {

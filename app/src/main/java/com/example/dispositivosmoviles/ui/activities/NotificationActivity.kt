@@ -80,6 +80,7 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     //Las echas se mandan como long
+
     @SuppressLint("ScheduleExactAlarm")
     private fun sendNotificationTimePicker(time: Long) {
         val myIntent = Intent(applicationContext, BradCasterNotifications::class.java)
@@ -93,7 +94,6 @@ class NotificationActivity : AppCompatActivity() {
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, myPendingIntent)
-
     }
 
     @SuppressLint("MissingPermission")

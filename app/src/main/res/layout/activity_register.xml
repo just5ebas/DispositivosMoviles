@@ -2,33 +2,27 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ejPractico"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-
-    tools:context=".ui.activities.EjercicioPracticoActivity">
+    tools:context=".ui.activities.RegisterActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="450px"
         android:layout_height="450px"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo_edi" />
 
-    <!-- Match_parent sirve para que el elemento se adapte al tamaño de la pantalla del celular -->
-    <!-- Wrap_content ajusta relativamente el tamaño de la pantalla (al tamaño del contenido) -->
-    <!-- Por medio de marginStart y marginEnd aseguramos una distancia fija en cada pantalla-->
     <TextView
         android:id="@+id/textView3"
         style="@style/ejPractico_titulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="@dimen/margin_sides"
         android:gravity="center"
         android:text="@string/pedidosOnline"
@@ -46,7 +40,7 @@
         android:layout_marginEnd="@dimen/margin_sides"
 
         android:gravity="center"
-        android:text="@string/mensaje_ejPractico"
+        android:text="Registra tu informacion"
         android:textColor="@color/low_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -104,95 +98,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="@dimen/margin_sides"
-
-        android:backgroundTint="#E85757"
-        android:text="Ingresar"
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="40dp"
+        android:text="Registrarse"
         android:textStyle="bold"
-
+        android:textSize="20sp"
+        android:backgroundTint="@color/bg_mv2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="@dimen/margin_sides"
-
-        android:text="Ubicacion"
-        android:textAlignment="center"
-        android:textColor="@color/low_gray"
-        android:textSize="15sp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginTop="12dp"
-
-        android:backgroundTint="#1da1f2"
-        android:drawableLeft="@drawable/baseline_mic_24"
-        android:text="Micrófono"
-        android:textSize="14sp"
-        android:textStyle="bold"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <Button
-        android:id="@+id/btnResult"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-
-        android:layout_marginEnd="@dimen/margin_sides"
-        android:backgroundTint="#1877f2"
-        android:text="Resultados"
-        android:textSize="14sp"
-
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="20dp"
-
-        android:text="¿Olvido su contraseña?"
-        android:textColor="@color/low_gray"
-        android:textStyle="bold"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
-
-    <Button
-        android:id="@+id/micro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-
-        android:layout_marginEnd="42dp"
-        android:text="Registrese"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnResult" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
