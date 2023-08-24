@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_edi" />
+        app:srcCompat="@drawable/logo" />
 
     <!-- Match_parent sirve para que el elemento se adapte al tamaño de la pantalla del celular -->
     <!-- Wrap_content ajusta relativamente el tamaño de la pantalla (al tamaño del contenido) -->
@@ -31,25 +31,12 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="@dimen/margin_sides"
         android:gravity="center"
-        android:text="@string/pedidosOnline"
+        android:text="Iniciar Sesión"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="@dimen/margin_sides"
-
-        android:gravity="center"
-        android:text="@string/mensaje_ejPractico"
-        android:textColor="@color/low_gray"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/textView5"
@@ -62,7 +49,7 @@
         android:textStyle="bold"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
         android:id="@+id/txtName"
@@ -82,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="@dimen/margin_sides"
         android:text="Contraseña"
 

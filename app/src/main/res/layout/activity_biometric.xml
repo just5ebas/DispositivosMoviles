@@ -15,7 +15,7 @@
         android:gravity="center"
         android:text="Autenticación Biometrica"
         android:textColor="@color/tema4.2"
-        android:textSize="42sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
