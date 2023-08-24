@@ -26,10 +26,10 @@
         android:id="@+id/textView3"
         style="@style/ejPractico_titulo"
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginEnd="@dimen/margin_sides"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_sides"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="@dimen/margin_sides"
         android:text="@string/pedidosOnline"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,8 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginEnd="@dimen/margin_sides"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/margin_sides"
 
         android:text="@string/mensaje_ejPractico"
         android:textColor="@color/low_gray"
@@ -55,8 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginEnd="@dimen/margin_sides"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="@dimen/margin_sides"
         android:text="Correo"
         android:textStyle="bold"
 
@@ -69,9 +69,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_side_inputs"
         android:layout_marginEnd="@dimen/margin_side_inputs"
-
         android:hint="@string/correoEjemplo"
-        android:textColorHint="@color/black"
+        android:singleLine="true"
+        android:textColorHint="@color/low_gray"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -81,8 +81,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginEnd="@dimen/margin_sides"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="@dimen/margin_sides"
         android:text="Contraseña"
 
         android:textStyle="bold"
@@ -98,7 +98,7 @@
         android:hint="Password"
         android:inputType="textPassword"
 
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/low_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -107,8 +107,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginEnd="@dimen/margin_sides"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="@dimen/margin_sides"
 
         android:backgroundTint="#E85757"
         android:text="Ingresar"
@@ -122,8 +122,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginEnd="@dimen/margin_sides"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/margin_sides"
 
         android:text="O conéctese usando las redes sociales"
         android:textAlignment="center"
@@ -143,9 +143,9 @@
         android:layout_marginTop="12dp"
 
         android:backgroundTint="#1da1f2"
-        android:drawableLeft="@drawable/twitter_foreground"
-        android:text="Twitter"
-        android:textSize="16sp"
+        android:drawableLeft="@drawable/baseline_mic_24"
+        android:text="Micrófono"
+        android:textSize="14sp"
         android:textStyle="bold"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -159,9 +159,8 @@
 
         android:layout_marginEnd="@dimen/margin_sides"
         android:backgroundTint="#1877f2"
-        android:drawableLeft="@drawable/facebook_foreground"
-        android:text="Facebook"
-        android:textSize="16sp"
+        android:text="Resultados"
+        android:textSize="14sp"
 
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -189,6 +188,7 @@
 
         android:layout_marginEnd="42dp"
         android:text="Registrese"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnResult" />

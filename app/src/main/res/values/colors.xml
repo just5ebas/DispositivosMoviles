@@ -32,4 +32,24 @@
     <color name="bg_mv1">#004777</color>
     <color name="bg_mv2">#FF2E00</color>
     <color name="title_mv">#3772FF</color>
+    <color name="tema1.1">#ABC4AF</color>
+    <color name="tema1.2">#D6DBB2</color>
+    <color name="tema1.3">#E3D985</color>
+    <color name="tema1.4">#E57A44</color>
+    <color name="tema1.5">#422040</color>
+    <color name="tema2.1">#A31621</color>
+    <color name="tema2.2">#FCF7F8</color>
+    <color name="tema2.3">#DFCC74</color>
+    <color name="tema2.4">#4E8098</color>
+    <color name="tema2.5">#FFE548</color>
+    <color name="tema3.1">#002642</color>
+    <color name="tema3.2">#211D3E</color>
+    <color name="tema3.3">#42133A</color>
+    <color name="tema3.4">#630A36</color>
+    <color name="tema3.5">#840032</color>
+    <color name="tema3.6">#9D2626</color>
+    <color name="tema3.7">#E59500</color>
+    <color name="tema3.8">#FAE8C7</color>
+    <color name="tema3.9">#91132C</color>
+
 </resources>

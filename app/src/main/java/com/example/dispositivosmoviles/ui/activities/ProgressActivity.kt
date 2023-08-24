@@ -1,17 +1,14 @@
 package com.example.dispositivosmoviles.ui.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.dispositivosmoviles.R
 import com.example.dispositivosmoviles.databinding.ActivityProgressBinding
 import com.example.dispositivosmoviles.ui.viewmodels.ProgressViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProgressActivity : AppCompatActivity() {
@@ -35,7 +32,7 @@ class ProgressActivity : AppCompatActivity() {
             this
         )
         {
-               Toast.makeText(this, it[0].nombre, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, it[it.size - 1].nombre, Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, NotificationActivity::class.java))
         }
 

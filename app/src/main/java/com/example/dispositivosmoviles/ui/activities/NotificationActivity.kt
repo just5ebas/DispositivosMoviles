@@ -80,6 +80,7 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     //Las echas se mandan como long
+    @SuppressLint("ScheduleExactAlarm")
     private fun sendNotificationTimePicker(time: Long) {
         val myIntent = Intent(applicationContext, BradCasterNotifications::class.java)
         //No va a hacer que cuando este abierta actualice la aplicacion a la pantalla, y si es que no esta abierta que abra una nueva (Banderas)

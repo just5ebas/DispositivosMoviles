@@ -33,7 +33,6 @@ class MarvelLogic {
             }
         }
 
-
         return itemList
 
     }

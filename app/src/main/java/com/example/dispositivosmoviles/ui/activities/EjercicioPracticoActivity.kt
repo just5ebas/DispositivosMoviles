@@ -191,10 +191,11 @@ class EjercicioPracticoActivity : AppCompatActivity() {
                 if (locationResult != null) {
                     locationResult.locations.forEach { location ->
                         currentLocation = location
-                        Log.d(
-                            "UCE",
-                            "Ubicacion: ${location.latitude}, ${location.longitude}"
-                        )
+                        Toast.makeText(
+                            baseContext,
+                            "Ubicacion: ${location.latitude}, ${location.longitude}",
+                            Toast.LENGTH_SHORT,
+                        ).show()
                     }
                 }
             }
@@ -319,10 +320,8 @@ class EjercicioPracticoActivity : AppCompatActivity() {
 
                 var intent = Intent(
                     this,
-                    ActivityWithBinding::class.java
+                    MainActivity::class.java
                 )
-
-                intent.putExtra("var1", binding.txtName.text.toString())
 
                 startActivity(intent)
             } else {

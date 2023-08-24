@@ -6,71 +6,107 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
+    android:background="@color/tema3.8"
     tools:context=".ui.activities.MainActivity">
 
     <TextView
         android:id="@+id/textView2"
-        style="@style/textTitle"
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="left"
-        android:text="@string/app_name_pantalla"
-        android:textSize="40sp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="Funcionalidades"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/tema3.9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_login"
-        style="@style/ButtonCancel"
-        android:layout_width="wrap_content"
+        android:id="@+id/funcion1"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="328dp"
-        android:text="Login"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/txt_user"
-        style="@style/SearchInput"
-
-        android:layout_width="221dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="104dp"
-
-        android:backgroundTint="@color/search_bg"
-        android:padding="8dp"
-        android:hint="User name"
-        android:textColorHint="@color/low_gray"
-
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/tema3.1"
+        android:text="Biometría"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.852"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <EditText
-        android:id="@+id/txt_password"
-        style="@style/SearchInput"
-        android:layout_width="221dp"
-        android:layout_height="46dp"
-
-        android:layout_marginTop="48dp"
-        android:backgroundTint="@color/search_bg"
-        android:padding="8dp"
-
-        android:hint="Password"
-        android:textColorHint="@color/low_gray"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+    <Button
+        android:id="@+id/funcion2"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/tema3.2"
+        android:text="Cámara"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.852"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_user" />
+        app:layout_constraintTop_toBottomOf="@+id/funcion1" />
+
+    <Button
+        android:id="@+id/funcion3"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/tema3.3"
+        android:text="Marvel"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/funcion2" />
+
+    <Button
+        android:id="@+id/funcion4"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/tema3.4"
+        android:text="Notificación"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/funcion3" />
+
+    <Button
+        android:id="@+id/funcion5"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/tema3.5"
+        android:text="Progress"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/funcion4" />
+
+    <Button
+        android:id="@+id/funcion6"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/tema3.6"
+        android:text="Resultados"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/funcion5" />
+
+    <Button
+        android:id="@+id/funcion7"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/tema3.7"
+        android:text="Pendiente"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/funcion6" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

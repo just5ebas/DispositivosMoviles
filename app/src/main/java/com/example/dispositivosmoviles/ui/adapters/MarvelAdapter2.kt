@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dispositivosmoviles.R
+import com.example.dispositivosmoviles.databinding.MarvelCharacters2Binding
 import com.example.dispositivosmoviles.logic.data.MarvelChars
-import com.example.dispositivosmoviles.databinding.MarvelCharactersBinding
 import com.squareup.picasso.Picasso
 
 class MarvelAdapter2(
@@ -17,7 +17,7 @@ class MarvelAdapter2(
 
     class MarvelViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        private val binding: MarvelCharactersBinding = MarvelCharactersBinding.bind(view)
+        private val binding: MarvelCharacters2Binding = MarvelCharacters2Binding.bind(view)
 
         fun render(item: MarvelChars) {
             binding.marvelTitle.text = item.nombre
