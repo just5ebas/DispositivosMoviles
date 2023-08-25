@@ -5,6 +5,9 @@
 
 Como estudiantes de la carrera de Ingeniería en Computación (Rediseño) de la Universidad Central del Ecuador, nos hemos formado para ser programadores no solo de aplicaciones web, o de escritorio, sino también de aplicaciones destinadas a dispositivos móviles. El presente proyecto contiene las funcionalidades que han sido revisadas a lo largo del semestre y que nos han permitido mejorar nuestras habilidades no solo como programadores sino también como diseñadores de una aplicación. Antes de empezar con la explicación de las funcionalidades que contiene el proyecto queremos ofrecer un agradecimiento al Ingeniero Byron Castillo por su arduo esfuerzo en la enseñanza hacia todos sus estudiantes.
 
+## Recomendaciones
+El proyecto fue implementado y probado en Android Studio, emulado en un Pixel 3 API 30 y un Pixel 4 API 30, por lo que se recomienda probar la aplicación en estos sistemas. Por último, se recomienda que Android Studio disponga de la versión Giraffe, 2022.3.1, lanzada el 23 de julio del 2023.
+
 ## Librerías utilizadas en la aplicación
 
 - **Picasso:**  esta es una librería que nos permite importar imágenes desde cualquier url y colocarlas en nuestros layouts.
